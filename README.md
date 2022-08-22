@@ -10,7 +10,7 @@ Repositorio para os exercicios da disciplina MEC2403
 
 #### Lista 1:
 
-- Lista_1.pdf: Arquivo pdf da resolucao dos exercicios, incluindo a parte à mão e o exercício de código.
+- Lista_1.pdf: Arquivo pdf da resolucao do exercicio
 - Lista_1.ipynb: Script do matlab(octave) em formato notebook do exercicio.
 
 
