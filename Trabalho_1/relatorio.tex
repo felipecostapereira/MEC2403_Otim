@@ -50,13 +50,47 @@
 \graphicspath{{figures/}} %Setting the graphicspath
 \usepackage[colorlinks=true, allcolors=blue]{hyperref}
 
-\title{PUC-RJ Pontif\'icia Universidade Cat\'olica do Rio de Janeiro \\ MEC 2403 - Otimiza\c c\~ao e Algoritmos para Engenhria Mec\^anica \\ Trabalho 01 - Otimiza\c c\~ao  sem Restri\c c\~oes  \\
-\large Professor: Ivan Menezes}
+% \title{PUC-RJ Pontif\'icia Universidade Cat\'olica do Rio de Janeiro \\ MEC 2403 - Otimiza\c c\~ao e Algoritmos para Engenhria Mec\^anica \\ Trabalho 01 - Otimiza\c c\~ao  sem Restri\c c\~oes  \\
+% \large Professor: Ivan Menezes}
 
-\author{Felipe da Costa Pereira - mat. 2212376 \\ {\tt felipecostapereira@gmail.com}}
+% \author{Felipe da Costa Pereira - mat. 2212376 \\ {\tt felipecostapereira@gmail.com}}
+
 \begin{document}
 
-\maketitle
+\begin{titlepage}
+      \begin{center}
+          \vspace*{1cm}
+
+          \Huge
+          \textbf{Trabalho 01 \\ Otimiza\c c\~ao  sem Restri\c c\~oes}
+
+          \vspace{0.5cm}
+          \LARGE
+          MEC 2403 - Otimiza\c c\~ao e Algoritmos para Engenhria Mec\^anica
+
+          \vspace{1.5cm}
+
+          \textbf{Felipe da Costa Pereira \\ {\tt felipecostapereira@gmail.com}}
+
+          \vfill
+          Professor: Ivan Menezes
+
+          \vspace{0.8cm}
+
+          \includegraphics[width=0.2\textwidth]{puc.jpg}
+
+          \Large
+          Departamento de Engenharia Mec\^anica\\
+          PUC-RJ Pontif\'icia Universidade Cat\'olica do Rio de Janeiro\\
+          outubro, 2022
+
+      \end{center}
+  \end{titlepage}
+
+
+
+
+% \maketitle
 
 \section{Introdu\c c\~ao}
 
@@ -151,7 +185,7 @@ Para atingir os objetivos do trabalho, foram programados scripts em linguagem Ma
       \label{fig:fluxo}
 \end{figure}
 
-Um script principal \textit{t01.m} escolhe os par\^ametros do algoritmo: $\alpha$ da busca linear, m\'aximo n\'umero de itera\c c\~oes e toler\^ancias para avaliar a converg\^encia. Al\'em disso esse script cria as fun\c c\~oes, seus gradientes, matriz Hessiana e pontos iniciais, a serem passados como par\^ametros para o script que implementa os algoritmos, conforme ilustrado na listagem \ref{l1} da se\c c\~ao Anexos.
+Um script principal \textit{t01.m} escolhe os par\^ametros do algoritmo: $\alpha$ (passo da busca linear), m\'aximo n\'umero de itera\c c\~oes e toler\^ancias para avaliar a converg\^encia. Al\'em disso esse script cria as fun\c c\~oes, seus gradientes, matriz Hessiana e pontos iniciais, a serem passados como par\^ametros para o script que implementa os algoritmos, conforme ilustrado na listagem \ref{l1} da se\c c\~ao Anexos.
 
 Em seguida, o script \textit{t01.m} chama o script \textit{osr.m} para cada m\'etodo e plota as curvas de n\'ivel da fun\c c\~ao f e todos os pontos visitados durante a busca do algoritmo, atrav\'es do script \textit{plot\_result.m} (listagem \ref{l2})
 
@@ -246,7 +280,7 @@ No caso da fun\c c\~ao do item \ref{fun:01b} nota-se que o m\'todo de Newton-Rap
 
 No caso da fun\c c\~ao do item \ref{fun:02} nota-se que o elevado tempo de execu\c c\~ao do m\'todo de Powell em rela\c c\~ao aos demais.
 
-As figuras
+As figuras de \ref{fig:graf01_m01} a \ref{fig:graf01_m06} a seguir ilustram as curvas de n\'ivel de $f$ para os casos das fun\c c\~oes dos itens \ref{fun:01a} e \ref{fun:01b}, bem como a trajet\'oria dos algoritmos associadoas as dire\c c\~oes de busca.
 
 \begin{figure}[H]
       \centering
@@ -350,7 +384,52 @@ As figuras
       \label{fig:graf01_m06}
 \end{figure}
 
-\section{Anexo - C\'odigos}
+A figura de \ref{fig:graf02} a seguir ilustrm, para os seis m\'etodos, as curvas de n\'ivel de $f$ para os casos da fun\c c\~ao do item \ref{fun:02}, bem como a trajet\'oria dos algoritmos associadoas as dire\c c\~oes de busca.
+
+\begin{figure}[H]
+      \centering
+      \begin{subfigure}{0.45\textwidth}
+            \includegraphics[width=\textwidth]{img02_m01.png}
+            \caption{Univariante}
+            \label{fig:graf02_m01}
+      \end{subfigure}
+      \begin{subfigure}{0.45\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{img02_m02.png}
+            \caption{Powell}
+            \label{fig:graf02_m02}
+      \end{subfigure}
+      \begin{subfigure}{0.45\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{img02_m03.png}
+            \caption{Steepest Descent}
+            \label{fig:graf02_m03}
+      \end{subfigure}
+      \begin{subfigure}{0.45\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{img02_m04.png}
+            \caption{Flecher\-Reeves}
+            \label{fig:graf02_m04}
+      \end{subfigure}
+      \begin{subfigure}{0.45\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{img02_m05.png}
+            \caption{Newton\-Raphson}
+            \label{fig:graf02_m05}
+      \end{subfigure}
+      \begin{subfigure}{0.45\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{img02_m06.png}
+            \caption{BFGS}
+            \label{fig:graf02_m06}
+      \end{subfigure}
+      \caption{Curvas de n\'ivel de $f_{2}$ e pontos $x_{k}$}
+      \label{fig:graf02}
+\end{figure}
+
+\section{Conclus\~oes}
+
+\section{Anexo 1 - C\'odigos}
 
 asds
 
