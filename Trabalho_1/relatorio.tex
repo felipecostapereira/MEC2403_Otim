@@ -7,7 +7,7 @@
 % matlab code
 % \usepackage{matlab-prettifier}
 \usepackage[numbered,framed]{matlab-prettifier}
-\renewcommand{\lstlistingname}{C\'odigo} % Listing->Code
+\renewcommand{\lstlistingname}{Anexo} % Listing->Code
 \let\ph\mlplaceholder % shorter macro
 \definecolor{codegreen}{rgb}{0,0.6,0}
 \definecolor{codegray}{rgb}{0.5,0.5,0.5}
@@ -87,22 +87,19 @@
       \end{center}
   \end{titlepage}
 
-
-
-
 % \maketitle
 
 \section{Introdu\c c\~ao}
 
-Otimiza\c c\~ao sem restri\c c\~ao (OSR) consiste em encontrar o m\'inimo de uma fun\c c\~ao $f(\vec{x})$ onde n\~ao h\'a restri\c c\~ao em rela\c c\~ao ao dom\'inio das vari\'aveis $\vec{x}$. A fim de se encontar o minimo da fun\c c\~ao $f(\vec{x})$ a partir de um ponto de partida $(\vec{x_{0}})$ , os m\'etodos apresentados nesse trabalho consistem na repeti\c c\~ao de duas etapas principais at\'e que um crit\'erio de parada seja atingido:
+Otimiza\c c\~ao sem restri\c c\~ao (OSR) consiste em encontrar o m\'inimo de uma fun\c c\~ao $f(\vec{x})$ onde n\~ao h\'a restri\c c\~ao em rela\c c\~ao ao dom\'inio das vari\'aveis $\vec{x}$. A fim de se encontrar o minimo da fun\c c\~ao $f(\vec{x})$ a partir de um ponto de partida $(\vec{x_{0}})$ , os m\'etodos apresentados nesse trabalho consistem na repeti\c c\~ao das etapas seguintes at\'e que um crit\'erio de parada seja atingido:
 \begin{enumerate}
       \item Selecionar uma dire\c c\~ao $\vec{d}$ a partir do ponto $\vec{x_{0}}$
-      \item Encontrar o m\'inimo da fun\c c\~ao $f$ nessa dire\c c\~ao, chegando a um novo ponto $\vec{x_{1}} = \vec{x_{0}} + \alpha\vec{d}$, onde $\alpha$ \'e um n\'umero real.
+      \item Encontrar o m\'inimo da fun\c c\~ao $f$ nessa dire\c c\~ao, chegando a um novo ponto $\vec{x_{1}} = \vec{x_{0}} + \alpha\vec{d}$, onde $\alpha$ \'e um n\'umero real (busca linear).
       \item Tomar $\vec{x_{1}}$ como o novo ponto de partida $\vec{x_{0}}$
       \item Repetir os passos de 1 a 3 at\'e que uma condi\c c\~ao de parada seja atingida: m\'inimo encontrado ($|\vec{\nabla f}|=0$), ou m\'aximo n\'umero de itera\c c\~oes atingido.
 \end{enumerate}
 
-Dessa forma o problema de minimiza\c c\~ao da fun\c c\~ao $f(\vec{x})$ se torna um problema de sucessivas determina\c c\~oes de dire\c c\~oes de busca e suas respectivas buscas lineares nesssas dire\c c\~oes.
+A etapa descrita no item 2 consiste na minimiza\c c\~ao de uma fun\c c\~ao de uma \'unica vari\'avel ($\alpha$). Dessa forma o problema de minimiza\c c\~ao da fun\c c\~ao $f(\vec{x})$ se torna um problema de sucessivas determina\c c\~oes de dire\c c\~oes de busca e suas respectivas buscas lineares nessas dire\c c\~oes.
 
 \section{Objetivos}
 
@@ -115,13 +112,13 @@ Os principais objetivos deste trabalho s\~ao:
 
 As fun\c c\~oes a serem minimizadas neste trabalho s\~ao: \\
 \\
-Problema 01a)
+Problema 01a):
 \begin{equation}\label{fun:01a}\tag{1a}
       f(x_{1},x_{2})=x_{1}^2 - 3x_{1}x_{2} + 4x_{2}^2 + x_{1} - x_{2}
 \end{equation}
 a partir dos pontos iniciais $x^0=\{2,2\}^t$ e $x^0=\{-1,-3\}^t$
 \\ \\
-Problema 01b)
+Problema 01b):
 \begin{equation}\label{fun:01b}\tag{1b}
 f(x_{1},x_{2}) = (1+a-bx_{1}-bx_{2})^2 + (b+x_{1}+ax_{2} - bx_{1}x_{2})^2
 \end{equation}
@@ -136,7 +133,11 @@ a partir dos ponto inicial $x^0=\{0.01,-0.10\}^t$
 
 \section{Algoritmos de Busca Linear}
 
-Os algoritmos de minimiza\c c\~ao s\~ao executaodos em duas etapas conforme citado anteriormente: uma primeira etapa consiste em determinar dire\c c\~oes de busca $\vec{d}$ e minimizar a fun\c c\~ao $f$ nessa dire\c c\~ao, de forma unidimensional, o que significa encontrar o valor de  $\alpha$ que minimiza a fun\c c\~ao $f(x=x_{0}+\alpha\vec{d})$ ao longo da dire\c c\~ao $\vec{d}$. A busca linear \'e relizada em duas etapas: Passo constante e refinamento do c\'alculo de $\alpha$.
+Os algoritmos de minimiza\c c\~ao s\~ao executados em duas etapas conforme citado anteriormente: a primeira etapa consiste em determinar uma dire\c c\~ao de busca $\vec{d}$ e em seguida promove-se a minimiza\c c\~ao da fun\c c\~ao $f$ nessa dire\c c\~ao, o que significa encontrar o valor de  $\alpha=\alpha_{k}$ que minimiza a fun\c c\~ao $f(x=x_{0}+\alpha\vec{d})$ ao longo da dire\c c\~ao $\vec{d}$. A partir do valor de $\alpha_{k}$ encontra-se um novo ponto de partida $f(x_{k+1}=x_{k}+\alpha_{k}\vec{d_{k}})$. Uma nova dire\c c\~ao $\vec{d_{k+1}}$ \'e ent\~ao determinada e o processo se repete at\'e que uma condi\c c\~ao de parada seja atingida.
+
+Neste trabalho, a busca linear \'e relizada em duas etapas: Passo constante e refinamento do c\'alculo de $\alpha$ atrav\'es do m\'etodo da se\c c\~ao \'aurea.
+
+Um maior detalhamento dos m\'etodos de busca aqui apresentados, assim como outros comumente utilizados na solu\c c\~ao de problemas de otimiza\c c\~ao pode ser encontrado em \cite{apostila}.
 
 \subsection{Passo Constante}
 
@@ -150,15 +151,19 @@ O m\'etodo da bisse\c c\~ao divide sucessivamente o intervalo descartando a part
 
 \section{Algoritmos de Dire\c c\~ao}
 
-Conforme descrito anteriormtente, os m\'etodos de dire\c c\~ao determinam dire\c c\~oes de busca do m\'inimo de $f$ a partir de um ponto $\vec{x_{k}}$. A partir da busca linear encontra-se o valor do passo nessa dire\c c\~ao que minimiza $f$, ($\alpha_{k}$), os algoritmos de dire\c c\~ao calculam, ent\~ao, a pr\'oxima dire\c c\~ao onde se deve minimizar $f$ e a partir do novo ponto $\vec{x_{k+1}}=\vec{x_k}+\alpha_{k}\vec{d}$. O processo se repete at\'e que uma condi\c c\~ao de parada seja atingida. Os algotitmos utilizados nesse trabalho s\~ao brevemente descritos a seguir.
+Conforme descrito anteriormtente, os m\'etodos de dire\c c\~ao determinam dire\c c\~oes de busca do m\'inimo de $f$ a partir de um ponto $\vec{x_{k}}$. A partir da busca linear encontra-se o valor do passo nessa dire\c c\~ao que minimiza $f$, ($\alpha_{k}$), os algoritmos de dire\c c\~ao calculam, ent\~ao, a pr\'oxima dire\c c\~ao onde se deve minimizar $f$ e a partir do novo ponto $\vec{x_{k+1}}=\vec{x_k}+\alpha_{k}\vec{d}$.
+
+Os algoritmos de determina\c c\~ao das dire\c c\~oes de busca utilizados nesse trabalho s\~ao brevemente descritos a seguir.
+
+Um maior detalhamento dos algortimos de dire\c c\~ao aqui apresentados, assim como outros comumente utilizados na solu\c c\~ao de problemas de otimiza\c c\~ao pode ser encontrado em \cite{apostila}.
+
 
 \subsection{Univariante}
 
-O m\'etodo univariante \'e o mais simples, onde as dire\c c\~oes de busca s\~ao as dire\c c\~oes can\^onicas, $\vec{d_{k}}=\vec{e_{k}}$.
-
+O m\'etodo univariante \'e o mais simples, onde as dire\c c\~oes de busca s\~ao as dire\c c\~oes can\^onicas, $\vec{d_{k}}=\vec{e_{k}}$. Esse procedimento \'e equivalente a modificar uma vari\'avel de cada vez no processo iterativo, ou seja, apenas a vari\'avel na posi\c c\~ao $k$ do vetor de vari\'aveis $\vec{x}$ \'e modificada na itera\c c\~ao $k$ (\cite{apostila})
 \subsection{Powell}
 
-O m\'etodo de Powell utiliza em seu algoritmo dire\c c\~oes denominadas "movimento padr\~ao". O m\'etodo de Powell gera dire\c c\~es Q-conjugadas, o que representa uma acelera\c c\~ao em rela\c c\~ao ao m\'etodo univariante. O m\'etodo de Powell converge para o m\'inimo de uma fun\c c\~ao quadr\'atica $n$ vari\'aveis em um n\'umero finito de passos dado por $n+1$ (notas de aula).
+O m\'etodo de Powell utiliza em seu algoritmo dire\c c\~oes denominadas "movimento padr\~ao". O m\'etodo de Powell gera dire\c c\~es Q-conjugadas, o que representa uma acelera\c c\~ao em rela\c c\~ao ao m\'etodo univariante. Um maior detalhamento sobre o m\'etod de Powell e a demonstra\c c\~ao de que o m\'etodo de Powell converge para o m\'inimo de uma fun\c c\~ao quadr\'atica de $n$ vari\'aveis em um n\'umero finito de passos dado por $n+1$ est\'a descrito em (\cite{apostila}).
 
 \subsection{Steepest Descent}
 
@@ -166,13 +171,17 @@ O m\'etdo Steepest Descent \'e um m\'etodo onde as dire\c c\~oes s\~ao dadas pel
 
 \subsection{Fletcher-Reeves}
 
-Este m\'etodo consiste em uma adapta\c c\~ao do m\'etodo dos Gradientes Conjugados que o torna capaz de ser usado para minimiza\c c\~ao de uma fun\c c\~ao qualquer. Para anto, duas modifica\c c\~oes precisam ser realizadas, a avaliacao da matriz Q (ou Hessiana para funcao nao quadratica) \'e substituida por uma busca linear e o parametro $\beta$ modificado (notas de aula).
+Este m\'etodo consiste em uma adapta\c c\~ao do m\'etodo dos Gradientes Conjugados que o torna capaz de ser usado para minimiza\c c\~ao de uma fun\c c\~ao qualquer. Para anto, duas modifica\c c\~oes precisam ser realizadas, a avaliacao da matriz Q (ou Hessiana para funcao nao quadratica) \'e substituida por uma busca linear e o parametro $\beta$ modificado (\cite{apostila}).
 
 \subsection{Newton-Raphson}
 
-O princ\'ipio deste m\'etodo \'e minimizar uma fun\c c\~ao $f$ atrav\'es de uma aproxima\c c\~ao local por uma fun\c c\~ao quadr\'atica. A dire\c c\~ao de minimiza\c c\~ao de $f$ \'e obtida a partir da derivada da expans\~ao de $f$ numa s\'erie de Taylor de ordem 2 em rela\c c\~ao a $\vec{d_{k}}$, de onde se obt\'em: $\vec{d_{k}}=-H^{-1} \vec{\nabla} f(\vec{x_{k}})$, onde H \'e a matriz Hessiana da fun\c c\~ao $f$.
+O princ\'ipio deste m\'etodo \'e minimizar uma fun\c c\~ao $f$ atrav\'es de uma aproxima\c c\~ao local por uma fun\c c\~ao quadr\'atica. A dire\c c\~ao de minimiza\c c\~ao de $f$ \'e obtida a partir da derivada da expans\~ao de $f$ numa s\'erie de Taylor de ordem 2 em rela\c c\~ao a $\vec{d_{k}}$, de onde se obt\'em: $\vec{d_{k}}=-H^{-1} \vec{\nabla} f(\vec{x_{k}})$, onde H \'e a matriz Hessiana da fun\c c\~ao $f$ (\cite{apostila}).
 
 \subsection{BFGS}
+
+O m\'etodo Broyden-Fletcher-Goldfarb-Shanno (BFGS) \'e um m\'etodo para resolver um problema de otimiza\c c\~ao n\~ao linear sem restri\c c\~oes. trata-se de uma solu\c c\~ao frequentemente usada quando se deseja um algoritmo com dire\c c\~oes de descida.
+
+A ideia principal deste m\'etodo \'e evitar a constru\c c\~ao expl\'icita da matriz Hessiana e, em vez disso, construir uma aproxima\c c\~ao da inversa da segunda derivada da fun\c c\~ao a ser minimizada, analisando os diferentes gradientes sucessivos. Esta aproxima\c c\~ao das derivadas da fun\c c\~ao leva a um m\'etodo quase\-Newton (uma variante do m\'etodo de Newton) para encontrar a dire\c c\~ao de busca. A matriz Hessiana n\~ao precisa ser recalculada a cada itera\c c\~ao do algoritmo. No entanto, o m\'etodo assume que a fun\c c\~ao pode ser aproximada localmente por uma expans\~ao quadr\'atica limitada em torno do \'otimo (\cite{bfgs}).
 
 \section{Metodologia}
 
@@ -185,17 +194,18 @@ Para atingir os objetivos do trabalho, foram programados scripts em linguagem Ma
       \label{fig:fluxo}
 \end{figure}
 
-Um script principal \textit{t01.m} escolhe os par\^ametros do algoritmo: $\alpha$ (passo da busca linear), m\'aximo n\'umero de itera\c c\~oes e toler\^ancias para avaliar a converg\^encia. Al\'em disso esse script cria as fun\c c\~oes, seus gradientes, matriz Hessiana e pontos iniciais, a serem passados como par\^ametros para o script que implementa os algoritmos, conforme ilustrado na listagem \ref{l1} da se\c c\~ao Anexos.
+Um script principal \textit{t01.m} escolhe os par\^ametros do algoritmo: $a=d\alpha$ (passo da busca linear), m\'aximo n\'umero de itera\c c\~oes (iter\_max) e toler\^ancias para avaliar a converg\^encia da fun\c c\~ao para um m\'inimo ou da se\c c\~ao \'aurea: TOL e TOL2, respectivamente. Al\'em disso esse script cria as fun\c c\~oes, seus gradientes, matriz Hessiana e pontos iniciais, a serem passados como par\^ametros para o script que implementa os algoritmos, conforme ilustrado no anexo \ref{l1}.
 
-Em seguida, o script \textit{t01.m} chama o script \textit{osr.m} para cada m\'etodo e plota as curvas de n\'ivel da fun\c c\~ao f e todos os pontos visitados durante a busca do algoritmo, atrav\'es do script \textit{plot\_result.m} (listagem \ref{l2})
+Em seguida, o script \textit{t01.m} chama o script \textit{osr.m} (anexo \ref{l2}) para cada m\'etodo e plota as curvas de n\'ivel da fun\c c\~ao $f$ e todos os pontos visitados durante a busca do algoritmo atrav\'es do script \textit{plot\_result.m}
 
-O script \textit{osr.m} implementa de fato os algoritmos a partir dos par\^ametros recebidos, retornando todos os valores de $\vec{x}$ visitados e o tempo de execu\c c\~ao. A listagem de c\'odigo \ref{list_osr} ilustra a implementa\c c\~ao do algoritmo de Powell.
+O script \textit{osr.m} implementa de fato os algoritmos a partir dos par\^ametros recebidos, retornando todos os valores de $\vec{x}$ visitados e o tempo de execu\c c\~ao, conforme o anexo \ref{list_osr}.
 
-Outros dois scripts invocados na solu\c c\~ao dos problemas propostos s\~ao \textit{passo\_constante.m} e \textit{secao\_aurea.m}, que realizam a etapa de busca linear para cada dire\c c\~ao de busca. Esses c\'odigos s\~ao listados nas listagens \ref{list_passo_constante} e \ref{list_secao_aurea}, respectivamente.
+Outros dois scripts invocados na solu\c c\~ao dos problemas propostos s\~ao \textit{passo\_constante.m} e \textit{secao\_aurea.m}, que realizam a etapa de busca linear para cada dire\c c\~ao de busca. Esses c\'odigos encontram-se nos anexos \ref{list_passo_constante} e \ref{list_secao_aurea}, respectivamente. O script \textit{plot\_result.m} \'e listado no anexo \ref{list_plot_result}.
 
 \section{Resultados}
 
 Visando a converg\^encia de todos os m\'etodos, foram testados alguns valores dos par\^ametros dos algoritmos. A melhor combina\c c\~ao dos par\^ametros, para as fun\c c\~oes dos problemas 1 e 2 em termos de converg\~encia dos algoritmos est\'a listada na tabela \ref{table:params}.
+
 \begin{table}[H]
       \small
       \centering
@@ -209,7 +219,7 @@ Visando a converg\^encia de todos os m\'etodos, foram testados alguns valores do
       \label{table:params}
 \end{table}
 
-As tabelas \ref{table:resultadosf1a}, \ref{table:resultadosf1b} e \ref{table:resultadosf2} apresentam os principais resultados dos algoritmos implementados. Al\'em dos pontos de m\'inimo encontrado, as tabelas apresentam tamb\'em o n\'umero de passos para a converg\^encia e o tempo de execu\c c\~ao.
+As tabelas \ref{table:resultadosf1a}, \ref{table:resultadosf1b} apresentam os principais resultados dos algoritmos implementados para as fun\c c\~oes dos itens \ref{fun:01a} e \ref{fun:01b}. Al\'em dos pontos de m\'inimo encontrado, as tabelas apresentam tamb\'em o n\'umero de passos para a converg\^encia e o tempo de execu\c c\~ao.
 
 \begin{table}[H]
       \small
@@ -220,21 +230,26 @@ As tabelas \ref{table:resultadosf1a}, \ref{table:resultadosf1b} e \ref{table:res
             \hline
             Univariante         & $\{2,2\}^t$     & $\{-0.7142,-0.1428\}^t$  & 34 & 4.8 \\
             Univariante         & $\{-1,-3\}^t$   & $\{-0.7144,-0.1429\}^t$  & 36 & 6.9 \\
+            \hline
             Powell              & $\{2,2\}^t$     & $\{-0.7143,-0.1429\}^t$  &  6 & 24.8 \\
             Powell              & $\{-1,-3\}^t$   & $\{-0.7143,-0.1429\}^t$  & 12 & 7.2 \\
+            \hline
             Steepest Descent    & $\{2,2\}^t$     & $\{-0.7142,-0.1428\}^t$  & 25 & 6.5 \\
             Steepest Descent    & $\{-1,-3\}^t$   & $\{-0.7143,-0.1429\}^t$  &  7 & 3.0 \\
-            Flecher\-Reeves     & $\{2,2\}^t$     & $\{-0.7143,-0.1429\}^t$  &  2 & 2.5 \\
-            Flecher\-Reeves     & $\{-1,-3\}^t$   & $\{-0.7143,-0.1429\}^t$  &  2 & 1.7 \\
-            Newton\-Raphson     & $\{2,2\}^t$     & $\{-0.7143,-0.1429\}^t$  &  1 & 2.5 \\
-            Newton\-Raphson     & $\{-1,-3\}^t$   & $\{-0.7143,-0.1429\}^t$  &  1 & 1.1 \\
+            \hline
+            Flecher-Reeves     & $\{2,2\}^t$     & $\{-0.7143,-0.1429\}^t$  &  2 & 2.5 \\
+            Flecher-Reeves     & $\{-1,-3\}^t$   & $\{-0.7143,-0.1429\}^t$  &  2 & 1.7 \\
+            \hline
+            Newton-Raphson     & $\{2,2\}^t$     & $\{-0.7143,-0.1429\}^t$  &  1 & 2.5 \\
+            Newton-Raphson     & $\{-1,-3\}^t$   & $\{-0.7143,-0.1429\}^t$  &  1 & 1.1 \\
+            \hline
             BFGS                & $\{2,2\}^t$     & $\{-0.7143,-0.1429\}^t$  &  2 & 2.2 \\
             BFGS                & $\{-1,-3\}^t$   & $\{-0.7143,-0.1429\}^t$  &  2 & 1.5 \\
-     \end{tabular}
+      \end{tabular}
       \label{table:resultadosf1a}
 \end{table}
 
-No caso da fun\c c\~ao do item \ref{fun:01a}, o m\'todo de Powell levou mais passos do que o esperado em teoria para uma fun\c c\~ao quadr\'atica, j\' que nesse caso \'e esperado que o mesmo atinja a converg\~encia em at\'e 9 passos.
+No caso da fun\c c\~ao do item \ref{fun:01a}, o m\'etodo de Powell levou mais passos do que o esperado em teoria para uma fun\c c\~ao quadr\'atica, j\'a que nesse caso \'e esperado que o mesmo atinja a converg\~encia em at\'e 9 passos.
 
 \begin{table}[H]
       \small
@@ -243,44 +258,31 @@ No caso da fun\c c\~ao do item \ref{fun:01a}, o m\'todo de Powell levou mais pas
       \begin{tabular}{c|c|c|c|c|c}
             m\'etodo           & $x^0$ & $x^{min}$ & passos & $\Delta t$(ms) \\
             \hline
-            Univariante         & $\{10,2\}^t$    & $\{13,4\}^t$  & 45 & 9.9 \\
+            Univariante         & $\{10,2\}^t$    & $\{13.0000,4.0000\}^t$  & 45 & 9.9 \\
             Univariante         & $\{-2,-3\}^t$   & $\{7,-2\}^t$  & 45 & 10.8 \\
-            Powell              & $\{10,2\}^t$    & $\{13,4\}^t$  & 24 & 11.6 \\
+            \hline
+            Powell              & $\{10,2\}^t$    & $\{13.0000,4.0000\}^t$  & 24 & 11.6 \\
             Powell              & $\{-2,-3\}^t$   & $\{7,-2\}^t$  & 18 & 8.0 \\
-            Steepest Descent    & $\{10,2\}^t$    & $\{13,4\}^t$  & 46 & 2.3 \\
+            \hline
+            Steepest Descent    & $\{10,2\}^t$    & $\{13.0000,4.0000\}^t$  & 46 & 2.3 \\
             Steepest Descent    & $\{-2,-3\}^t$   & $\{7,-2\}^t$  & 59 & 2.6 \\
-            Flecher\-Reeves     & $\{10,2\}^t$    & $\{13,4\}^t$  & 41 & 1.6 \\
-            Flecher\-Reeves     & $\{-2,-3\}^t$   & $\{7,-2\}^t$  & 16 & 0.9 \\
-            Newton\-Raphson     & $\{10,2\}^t$    & $\{10,1\}^t$  &  1 & 0.9 \\
-            Newton\-Raphson     & $\{-2,-3\}^t$   & $\{12.9999,4.0001\}^t$  &  6 & 4.1 \\
-            BFGS                & $\{10,2\}^t$    & $\{13,4\}^t$  &  7 & 4.1 \\
+            \hline
+            Flecher-Reeves     & $\{10,2\}^t$    & $\{13.0000,4.0000\}^t$  & 41 & 1.6 \\
+            Flecher-Reeves     & $\{-2,-3\}^t$   & $\{7,-2\}^t$  & 16 & 0.9 \\
+            \hline
+            Newton-Raphson(*)   & $\{10,2\}^t$    & $\{10,1\}^t$  &  1 & 0.9 \\
+            Newton-Raphson     & $\{-2,-3\}^t$   & $\{12.9999,4.0001\}^t$  &  6 & 4.1 \\
+            \hline
+            BFGS                & $\{10,2\}^t$    & $\{13.0000,4.0000\}^t$  &  7 & 4.1 \\
             BFGS                & $\{-2,-3\}^t$   & $\{7,-2\}^t$  &  6 & 5.7 \\
-     \end{tabular}
+      \end{tabular}
       \label{table:resultadosf1b}
 \end{table}
 
-No caso da fun\c c\~ao do item \ref{fun:01b} nota-se que o m\'todo de Newton-Raphson n\~ao convegiu para o primeiro ponto. Na verdade o algoritmo parou no crit\'erio de norma do gradiente no primeiro passo, o que leva a uma converg\^encia para um valor equivocado. De fato a busca linear nesse caso retornou um valor tal que, ao final do primeiro passo o algoritmo caiu num ponto o gradiente de $f$ \'e muito pequeno. Tal problema pode ser visualizado tamb\'em graficamente na figura \ref{fig:graf01B_m05}.
+No caso da fun\c c\~ao do item \ref{fun:01b} nota-se que o m\'etodo de Newton-Raphson n\~ao convegiu para o primeiro ponto (*). Na verdade o algoritmo parou no crit\'erio de norma do gradiente no primeiro passo, o que leva a uma converg\^encia para um valor equivocado. De fato a busca linear nesse caso retornou um valor tal que, ao final do primeiro passo o algoritmo caiu num ponto o gradiente de $f$ \'e muito pequeno. Tal problema pode ser visualizado tamb\'em graficamente na figura \ref{fig:graf01B_m05}.
 
-\begin{table}[H]
-      \small
-      \centering
-      \caption{Resultados para a fun\c c\~ao \ref{fun:02}}
-      \begin{tabular}{c|c|c|c|c|c}
-            m\'etodo           & $x^0$ & $x^{min}$ & passos & $\Delta t$(ms) \\
-            \hline
-            Univariante         & $\{0.01,-0.10\}^t$     & $\{-0.205,7.789\}^t$  & 11 & 2.1 \\
-            Powell              & $\{0.01,-0.10\}^t$     & $\{-0.205,7.789\}^t$  & 12 & 6340.8(**)  \\
-            Steepest Descent    & $\{0.01,-0.10\}^t$     & $\{-0.205,7.789\}^t$  &  6 & 0.3 \\
-            Flecher\-Reeves     & $\{0.01,-0.10\}^t$     & $\{-0.205,7.789\}^t$  & 10 & 0.4 \\
-            Newton\-Raphson     & $\{0.01,-0.10\}^t$     & $\{-0.205,7.789\}^t$  &  3 & 4.4 \\
-            BFGS                & $\{0.01,-0.10\}^t$     & $\{-0.205,7.789\}^t$  &  3 & 0.3 \\
-     \end{tabular}
-      \label{table:resultadosf2}
-\end{table}
 
-No caso da fun\c c\~ao do item \ref{fun:02} nota-se que o elevado tempo de execu\c c\~ao do m\'todo de Powell em rela\c c\~ao aos demais.
-
-As figuras de \ref{fig:graf01_m01} a \ref{fig:graf01_m06} a seguir ilustram as curvas de n\'ivel de $f$ para os casos das fun\c c\~oes dos itens \ref{fun:01a} e \ref{fun:01b}, bem como a trajet\'oria dos algoritmos associadoas as dire\c c\~oes de busca.
+As figuras de \ref{fig:graf01_m01} a \ref{fig:graf01_m06} a seguir ilustram as curvas de n\'ivel de $f$ para os casos das fun\c c\~oes dos itens \ref{fun:01a} e \ref{fun:01b}, bem como a trajet\'oria dos pontos $\vec{x_{k}}$ associadoas ao algoritmo de minimiza\c c\~ao.
 
 \begin{figure}[H]
       \centering
@@ -384,7 +386,28 @@ As figuras de \ref{fig:graf01_m01} a \ref{fig:graf01_m06} a seguir ilustram as c
       \label{fig:graf01_m06}
 \end{figure}
 
-A figura de \ref{fig:graf02} a seguir ilustrm, para os seis m\'etodos, as curvas de n\'ivel de $f$ para os casos da fun\c c\~ao do item \ref{fun:02}, bem como a trajet\'oria dos algoritmos associadoas as dire\c c\~oes de busca.
+A tabela \ref{table:resultadosf2} apresenta os principais resultados dos algoritmos implementados para a fun\c c\~ao do item \ref{fun:02}. Al\'em dos pontos de m\'inimo encontrados, as tabelas apresentam tamb\'em o n\'umero de passos para a converg\^encia e o tempo de execu\c c\~ao.
+
+\begin{table}[H]
+      \small
+      \centering
+      \caption{Resultados para a fun\c c\~ao \ref{fun:02}}
+      \begin{tabular}{c|c|c|c|c|c}
+            m\'etodo           & $x^0$ & $x^{min}$ & passos & $\Delta t$(ms) \\
+            \hline
+            Univariante         & $\{0.01,-0.10\}^t$     & $\{-0.205,7.789\}^t$  & 11 & 2.1 \\
+            Powell              & $\{0.01,-0.10\}^t$     & $\{-0.205,7.789\}^t$  & 12 & 6340.8(**)  \\
+            Steepest Descent    & $\{0.01,-0.10\}^t$     & $\{-0.205,7.789\}^t$  &  6 & 0.3 \\
+            Flecher-Reeves      & $\{0.01,-0.10\}^t$     & $\{-0.205,7.789\}^t$  & 10 & 0.4 \\
+            Newton-Raphson      & $\{0.01,-0.10\}^t$     & $\{-0.205,7.789\}^t$  &  3 & 4.4 \\
+            BFGS                & $\{0.01,-0.10\}^t$     & $\{-0.205,7.789\}^t$  &  3 & 0.3 \\
+     \end{tabular}
+      \label{table:resultadosf2}
+\end{table}
+
+No caso da fun\c c\~ao do item \ref{fun:02} nota-se que o elevado tempo de execu\c c\~ao do m\'todo de Powell (**) em rela\c c\~ao aos demais.
+
+A figuras \ref{fig:graf02_ordem0}, \ref{fig:graf02_ordem1} e \ref{fig:graf02_ordem2} a seguir ilustram, para os seis m\'etodos, as curvas de n\'ivel de $f$ para os casos da fun\c c\~ao do item \ref{fun:02}, bem como a trajet\'oria dos pontos $\vec{x_{k}}$ associadoas ao algoritmo de minimiza\c c\~ao.
 
 \begin{figure}[H]
       \centering
@@ -399,6 +422,12 @@ A figura de \ref{fig:graf02} a seguir ilustrm, para os seis m\'etodos, as curvas
             \caption{Powell}
             \label{fig:graf02_m02}
       \end{subfigure}
+      \caption{Curvas de n\'ivel de $f_{2}$ e pontos $x_{k}$, m\'etodos de ordem zero}
+      \label{fig:graf02_ordem0}
+\end{figure}
+
+\begin{figure}[H]
+      \centering
       \begin{subfigure}{0.45\textwidth}
             \centering
             \includegraphics[width=\textwidth]{img02_m03.png}
@@ -408,13 +437,19 @@ A figura de \ref{fig:graf02} a seguir ilustrm, para os seis m\'etodos, as curvas
       \begin{subfigure}{0.45\textwidth}
             \centering
             \includegraphics[width=\textwidth]{img02_m04.png}
-            \caption{Flecher\-Reeves}
+            \caption{Flecher-Reeves}
             \label{fig:graf02_m04}
       \end{subfigure}
+      \caption{Curvas de n\'ivel de $f_{2}$ e pontos $x_{k}$, m\'etodos de ordem um}
+      \label{fig:graf02_ordem1}
+\end{figure}
+
+\begin{figure}[H]
+      \centering
       \begin{subfigure}{0.45\textwidth}
             \centering
             \includegraphics[width=\textwidth]{img02_m05.png}
-            \caption{Newton\-Raphson}
+            \caption{Newton-Raphson}
             \label{fig:graf02_m05}
       \end{subfigure}
       \begin{subfigure}{0.45\textwidth}
@@ -423,16 +458,17 @@ A figura de \ref{fig:graf02} a seguir ilustrm, para os seis m\'etodos, as curvas
             \caption{BFGS}
             \label{fig:graf02_m06}
       \end{subfigure}
-      \caption{Curvas de n\'ivel de $f_{2}$ e pontos $x_{k}$}
-      \label{fig:graf02}
+      \caption{Curvas de n\'ivel de $f_{2}$ e pontos $x_{k}$, m\'etodos de Newton-Rapshon e BFGS}
+      \label{fig:graf02_ordem2}
 \end{figure}
 
 \section{Conclus\~oes}
 
-\section{Anexo 1 - C\'odigos}
 
-asds
 
+\section{Anexos}
+
+A seguir est\~ao ilustrados alguns dos c\'odigos ou trechos de c\'odigos decritos na metodologia.
 
 \begin{minipage}{\linewidth}
       \begin{lstlisting}[style=myStyle, caption=script t01.m setando par\^ametros e criando as fun\c c\~oes, label=l1]
@@ -530,8 +566,8 @@ asds
 \end{minipage}
 
 \begin{minipage}{\linewidth}
-      \begin{lstlisting}[style=myStyle, caption=script osr.m implementando o m\'etodo de Powell, label=list_passo_constante]
-            function [alpha_L, alpha_H] = passo_constante(f, x0, d, a)
+      \begin{lstlisting}[style=myStyle, caption=script passo\_constante.m, label=list_passo_constante]
+      function [alpha_L, alpha_H] = passo_constante(f, x0, d, a)
             alpha = 0;
             f_min = Inf;
             f_val = f(x0);
@@ -561,7 +597,7 @@ asds
 \end{minipage}
 
 \begin{minipage}{\linewidth}
-      \begin{lstlisting}[style=myStyle, caption=script osr.m implementando o m\'etodo de Powell, label=list_secao_aurea]
+      \begin{lstlisting}[style=myStyle, caption=script secao\_aurea.m, label=list_secao_aurea]
       function alpha_k = secao_aurea (f, x0, d, TOL, alpha_L, alpha_H)
             ra = (sqrt(5)-1)/2;
             b = norm(alpha_L-alpha_H);
@@ -592,5 +628,49 @@ asds
       end
       \end{lstlisting}
 \end{minipage}
+
+\begin{minipage}{\linewidth}
+      \begin{lstlisting}[style=myStyle, caption=script plot\_result.m, label=list_plot_result]
+      function [] = plot_result(xmin, xmax, ymin, ymax, x_, x2_, graph_title, func)
+            n = length(x_);
+            n2 = length(x2_);
+            figure
+            x1 = linspace(xmin, xmax, 100);
+            x2 = linspace(ymin, ymax, 100);
+            [x1,x2] = meshgrid(x1,x2);
+            if func == 1
+                fplot = x1.^2 - 3*x1.*x2 + 4*x2.^2 + x1 - x2;
+                contour(x1, x2, fplot, [0 2 8 15 30:20:120], 'ShowText','on');
+            elseif func == 2
+                fplot = (11-x1-x2).^2 + (1+x1+10*x2-x1.*x2).^2;
+                contour(x1, x2, fplot, [50 122 200 1000 1625 5000 10000], 'ShowText','on')
+            else
+                fplot = 450*(sqrt((30+x1).^2+x2.^2)-30).^2+300*(sqrt((30-x1).^2+x2.^2)-30).^2-360*x2;
+                contour(x1, x2, fplot, 'ShowText','on')
+            end
+            title(graph_title)
+            xlabel('$x_{1}$', 'Interpreter', 'latex')
+            ylabel('$x_{2}$', 'Interpreter', 'latex')
+            hold on
+            for k = 1:n
+                plot(x_(1,k), x_(2,k),'o', 'LineWidth', 2, 'MarkerSize', 10)
+                if k<n
+                    desenha_flecha(x_(:,k)', x_(:,k+1)', 'k');
+                end
+            end
+            if ~ isempty(x2_)
+                for k = 1:n2
+                    plot(x2_(1,k), x2_(2,k),'o', 'LineWidth', 2, 'MarkerSize', 10)
+                    if k<n2
+                        desenha_flecha(x2_(:,k)', x2_(:,k+1)', 'r');
+                    end
+                end
+            end
+        end
+      \end{lstlisting}
+\end{minipage}
+
+\bibliographystyle{apalike}
+\bibliography{export}
 
 \end{document}
