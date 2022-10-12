@@ -23,6 +23,11 @@ Repositorio para os exercicios da disciplina MEC2403
 - Lista_3.pdf: Arquivo pdf da resolucao do exercicio
 - Lista_3.ipynb: Script do matlab(octave) em formato notebook do exercicio.
 
+#### Trabalho 1:
+
+- trab01_relatorio_Felipe.pdf: Arquivo pdf do trabalho
+- Os demais arquivos são os códigos dos scripts
+
 #### Lista 4:
 
 - Lista_4_Felipe.pdf: Arquivo pdf da resolucao do exercicio
