@@ -107,7 +107,7 @@ Os principais objetivos deste trabalho s\~ao:
 \begin{itemize}
       \item Implementar numericamente os algoritmos de otimiza\c c\~ao: Univariante, Powell, Steepest Descent, Fletcher-Reeves, Newton-Raphson e BFGS.
       \item Avaliar a influ\^encia dos par\^ametros dos algoritmos nas m\'etricas de converg\^encia e comparar essas \'ulltimas com os valores esperados da teoria.
-      \item Aplicar os algoritmos implementados na solu\c c\~ao do problema de OSR em tr\^es casos: uma fun\c c\~ao quadr\'atica, uma n\~ao quadr\'atica e uma terceira fun\c c\~ao que representa um problema de engenharia (minimizaz\c c\~ao da energia de um sistema massa-mola visando encontrar seu ponto de equil\'ibrio est\'atico)
+      \item Aplicar os algoritmos implementados na solu\c c\~ao do problema de OSR em tr\^es casos: uma fun\c c\~ao quadr\'atica, uma n\~ao quadr\'atica e uma terceira fun\c c\~ao que representa um problema de engenharia (minimiza\c c\~ao da energia de um sistema massa-mola visando encontrar seu ponto de equil\'ibrio est\'atico)
 \end{itemize}
 
 As fun\c c\~oes a serem minimizadas neste trabalho s\~ao: \\
@@ -163,7 +163,7 @@ Um maior detalhamento dos algortimos de dire\c c\~ao aqui apresentados, assim co
 O m\'etodo univariante \'e o mais simples, onde as dire\c c\~oes de busca s\~ao as dire\c c\~oes can\^onicas, $\vec{d_{k}}=\vec{e_{k}}$. Esse procedimento \'e equivalente a modificar uma vari\'avel de cada vez no processo iterativo, ou seja, apenas a vari\'avel na posi\c c\~ao $k$ do vetor de vari\'aveis $\vec{x}$ \'e modificada na itera\c c\~ao $k$ (\cite{apostila})
 \subsection{Powell}
 
-O m\'etodo de Powell utiliza em seu algoritmo dire\c c\~oes denominadas "movimento padr\~ao". O m\'etodo de Powell gera dire\c c\~es Q-conjugadas, o que representa uma acelera\c c\~ao em rela\c c\~ao ao m\'etodo univariante. Um maior detalhamento sobre o m\'etod de Powell e a demonstra\c c\~ao de que o m\'etodo de Powell converge para o m\'inimo de uma fun\c c\~ao quadr\'atica de $n$ vari\'aveis em um n\'umero finito de passos dado por $n+1$ est\'a descrito em (\cite{apostila}).
+O m\'etodo de Powell utiliza em seu algoritmo dire\c c\~oes denominadas "movimento padr\~ao". O m\'etodo de Powell gera dire\c c\~es Q-conjugadas, o que representa uma acelera\c c\~ao em rela\c c\~ao ao m\'etodo univariante. Um maior detalhamento sobre o m\'etod de Powell e a demonstra\c c\~ao de que o m\'etodo de Powell converge para o m\'inimo de uma fun\c c\~ao quadr\'atica de $n$ vari\'aveis em um n\'umero finito de passos dado por $(n+1)^2$ est\'a descrito em \cite{apostila}.
 
 \subsection{Steepest Descent}
 
@@ -171,7 +171,7 @@ O m\'etdo Steepest Descent \'e um m\'etodo onde as dire\c c\~oes s\~ao dadas pel
 
 \subsection{Fletcher-Reeves}
 
-Este m\'etodo consiste em uma adapta\c c\~ao do m\'etodo dos Gradientes Conjugados que o torna capaz de ser usado para minimiza\c c\~ao de uma fun\c c\~ao qualquer. Para anto, duas modifica\c c\~oes precisam ser realizadas, a avaliacao da matriz Q (ou Hessiana para funcao nao quadratica) \'e substituida por uma busca linear e o parametro $\beta$ modificado (\cite{apostila}).
+Este m\'etodo consiste em uma adapta\c c\~ao do m\'etodo dos Gradientes Conjugados que o torna capaz de ser usado para minimiza\c c\~ao de uma fun\c c\~ao qualquer. Para tanto, duas modifica\c c\~oes precisam ser realizadas, a avaliacao da matriz Q (ou Hessiana para funcao nao quadratica) \'e substituida por uma busca linear e o parametro $\beta$ modificado (\cite{apostila}).
 
 \subsection{Newton-Raphson}
 
@@ -181,7 +181,7 @@ O princ\'ipio deste m\'etodo \'e minimizar uma fun\c c\~ao $f$ atrav\'es de uma 
 
 O m\'etodo Broyden-Fletcher-Goldfarb-Shanno (BFGS) \'e um m\'etodo para resolver um problema de otimiza\c c\~ao n\~ao linear sem restri\c c\~oes. trata-se de uma solu\c c\~ao frequentemente usada quando se deseja um algoritmo com dire\c c\~oes de descida.
 
-A ideia principal deste m\'etodo \'e evitar a constru\c c\~ao expl\'icita da matriz Hessiana e, em vez disso, construir uma aproxima\c c\~ao da inversa da segunda derivada da fun\c c\~ao a ser minimizada, analisando os diferentes gradientes sucessivos. Esta aproxima\c c\~ao das derivadas da fun\c c\~ao leva a um m\'etodo quase\-Newton (uma variante do m\'etodo de Newton) para encontrar a dire\c c\~ao de busca. A matriz Hessiana n\~ao precisa ser recalculada a cada itera\c c\~ao do algoritmo. No entanto, o m\'etodo assume que a fun\c c\~ao pode ser aproximada localmente por uma expans\~ao quadr\'atica limitada em torno do \'otimo (\cite{bfgs}).
+A ideia principal deste m\'etodo \'e evitar a constru\c c\~ao expl\'icita da matriz Hessiana e, em vez disso, construir uma aproxima\c c\~ao da inversa da segunda derivada da fun\c c\~ao a ser minimizada, analisando os diferentes gradientes sucessivos. Esta aproxima\c c\~ao das derivadas da fun\c c\~ao leva a um m\'etodo quase-Newton (uma variante do m\'etodo de Newton) para encontrar a dire\c c\~ao de busca. A matriz Hessiana n\~ao precisa ser recalculada a cada itera\c c\~ao do algoritmo. No entanto, o m\'etodo assume que a fun\c c\~ao pode ser aproximada localmente por uma expans\~ao quadr\'atica limitada em torno do \'otimo (\cite{bfgs}).
 
 \section{Metodologia}
 
@@ -194,13 +194,15 @@ Para atingir os objetivos do trabalho, foram programados scripts em linguagem Ma
       \label{fig:fluxo}
 \end{figure}
 
-Um script principal \textit{t01.m} escolhe os par\^ametros do algoritmo: $a=d\alpha$ (passo da busca linear), m\'aximo n\'umero de itera\c c\~oes (iter\_max) e toler\^ancias para avaliar a converg\^encia da fun\c c\~ao para um m\'inimo ou da se\c c\~ao \'aurea: TOL e TOL2, respectivamente. Al\'em disso esse script cria as fun\c c\~oes, seus gradientes, matriz Hessiana e pontos iniciais, a serem passados como par\^ametros para o script que implementa os algoritmos, conforme ilustrado no anexo \ref{l1}.
+Um script principal \textit{t01.m} escolhe os par\^ametros do algoritmo: $a=d\alpha$ (passo da busca linear), m\'aximo n\'umero de itera\c c\~oes (iter\_max) e toler\^ancias para avaliar a converg\^encia da fun\c c\~ao e da se\c c\~ao \'aurea: TOL e TOL2, respectivamente. Al\'em disso esse script cria as fun\c c\~oes, seus gradientes, matriz Hessiana e pontos iniciais, a serem passados como par\^ametros para o script que implementa os algoritmos, conforme ilustrado no anexo \ref{l1}.
 
-Em seguida, o script \textit{t01.m} chama o script \textit{osr.m} (anexo \ref{l2}) para cada m\'etodo e plota as curvas de n\'ivel da fun\c c\~ao $f$ e todos os pontos visitados durante a busca do algoritmo atrav\'es do script \textit{plot\_result.m}
+Em seguida, o script \textit{t01.m} chama o script \textit{osr.m} (anexo \ref{l2}) para cada m\'etodo e plota as curvas de n\'ivel da fun\c c\~ao $f$ e todos os pontos visitados durante a busca do algoritmo atrav\'es do script \textit{plot\_result.m}.
 
-O script \textit{osr.m} implementa de fato os algoritmos a partir dos par\^ametros recebidos, retornando todos os valores de $\vec{x}$ visitados e o tempo de execu\c c\~ao, conforme o anexo \ref{list_osr}.
+O script \textit{osr.m} implementa de fato os algoritmos a partir dos par\^ametros recebidos, retornando todos os valores de $\vec{x}$ visitados e o tempo de execu\c c\~ao, conforme o anexo \ref{list_osr}. O \'ultimo dos pontos visitados durante a execu\c c\~ao do algoritmo ser\'a o ponto da converg\^encia $x_{min}$.
 
 Outros dois scripts invocados na solu\c c\~ao dos problemas propostos s\~ao \textit{passo\_constante.m} e \textit{secao\_aurea.m}, que realizam a etapa de busca linear para cada dire\c c\~ao de busca. Esses c\'odigos encontram-se nos anexos \ref{list_passo_constante} e \ref{list_secao_aurea}, respectivamente. O script \textit{plot\_result.m} \'e listado no anexo \ref{list_plot_result}.
+
+A sa\'ida da execu\c c\~ao do script principal \textit{t01.m} est\'a listada no anexo \ref{list_output}.
 
 \section{Resultados}
 
@@ -213,8 +215,8 @@ Visando a converg\^encia de todos os m\'etodos, foram testados alguns valores do
       \begin{tabular}{c|c|c|c|c}
                         & $d\alpha$ & TOL(gradiente) & TOL2(busca linear) & max\_iter \\
             \hline
-            Problema 01 & 0.002 & 1e-4 & 1e-7 & 100 \\
-            Problema 02 & 0.005 & 5e-4 & 1e-7 & 100 \\
+            Fun\c c\~ao \ref{fun:01a} e \ref{fun:01b} & 0.002 & $10^{-4}$ & $10^{-7}$ & 100 \\
+            Fun\c c\~ao \ref{fun:02} & 0.005 & $5\times 10^{-4}$ & $10^{-7}$ & 100 \\
       \end{tabular}
       \label{table:params}
 \end{table}
@@ -259,28 +261,45 @@ No caso da fun\c c\~ao do item \ref{fun:01a}, o m\'etodo de Powell levou mais pa
             m\'etodo           & $x^0$ & $x^{min}$ & passos & $\Delta t$(ms) \\
             \hline
             Univariante         & $\{10,2\}^t$    & $\{13.0000,4.0000\}^t$  & 45 & 9.9 \\
-            Univariante         & $\{-2,-3\}^t$   & $\{7,-2\}^t$  & 45 & 10.8 \\
+            Univariante         & $\{-2,-3\}^t$   & $\{7.0000,-2.0000\}^t$  & 45 & 10.8 \\
             \hline
             Powell              & $\{10,2\}^t$    & $\{13.0000,4.0000\}^t$  & 24 & 11.6 \\
-            Powell              & $\{-2,-3\}^t$   & $\{7,-2\}^t$  & 18 & 8.0 \\
+            Powell              & $\{-2,-3\}^t$   & $\{7.0000,-2.0000\}^t$  & 18 & 8.0 \\
             \hline
             Steepest Descent    & $\{10,2\}^t$    & $\{13.0000,4.0000\}^t$  & 46 & 2.3 \\
-            Steepest Descent    & $\{-2,-3\}^t$   & $\{7,-2\}^t$  & 59 & 2.6 \\
+            Steepest Descent    & $\{-2,-3\}^t$   & $\{7.0000,-2.0000\}^t$  & 59 & 2.6 \\
             \hline
             Flecher-Reeves     & $\{10,2\}^t$    & $\{13.0000,4.0000\}^t$  & 41 & 1.6 \\
-            Flecher-Reeves     & $\{-2,-3\}^t$   & $\{7,-2\}^t$  & 16 & 0.9 \\
+            Flecher-Reeves     & $\{-2,-3\}^t$   & $\{7.0000,-2.0000\}^t$  & 16 & 0.9 \\
             \hline
-            Newton-Raphson(*)   & $\{10,2\}^t$    & $\{10,1\}^t$  &  1 & 0.9 \\
+            Newton-Raphson     & $\{10,2\}^t$    & $\{10.0000,1.0000\}^t$(*)  &  1 & 0.9 \\
             Newton-Raphson     & $\{-2,-3\}^t$   & $\{12.9999,4.0001\}^t$  &  6 & 4.1 \\
             \hline
             BFGS                & $\{10,2\}^t$    & $\{13.0000,4.0000\}^t$  &  7 & 4.1 \\
-            BFGS                & $\{-2,-3\}^t$   & $\{7,-2\}^t$  &  6 & 5.7 \\
+            BFGS                & $\{-2,-3\}^t$   & $\{7.0000,-2.0000\}^t$  &  6 & 5.7 \\
       \end{tabular}
       \label{table:resultadosf1b}
 \end{table}
 
-No caso da fun\c c\~ao do item \ref{fun:01b} nota-se que o m\'etodo de Newton-Raphson n\~ao convegiu para o primeiro ponto (*). Na verdade o algoritmo parou no crit\'erio de norma do gradiente no primeiro passo, o que leva a uma converg\^encia para um valor equivocado. De fato a busca linear nesse caso retornou um valor tal que, ao final do primeiro passo o algoritmo caiu num ponto o gradiente de $f$ \'e muito pequeno. Tal problema pode ser visualizado tamb\'em graficamente na figura \ref{fig:graf01B_m05}.
+No caso da fun\c c\~ao do item \ref{fun:01b} nota-se que o m\'etodo de Newton-Raphson convergiu para um valor diferente dos demais m\'etodos (*). A primeira dire\c c\~ao de descida foi $\vec{d_{0}} = [0, -1]^t$. A busca linear, assim, resultou no ponto $x^1 = [10, 1]^t$.
 
+Nesse ponto, temos a norma do gradiente de $f$:
+
+$$|\vec{\nabla} f_{1b}([10, 1])| = 0$$
+
+e a matriz hessiana de $f$:
+
+\[
+  H_{1b}([10, 1]) =
+  \left[ {\begin{array}{cc}
+    2 & -20 \\
+    -20 & 2 \\
+  \end{array} } \right]
+\]
+
+Sendo os autovalores de $H_{1b}$ iguais a $\lambda_{1} = -18$ e $\lambda_{2} = 22$ positivo e negativo, esse ponto \'e um ponto cr\'itico mas n\~ao um ponto de m\'inimo da fun\c c\~ao $f$ mas sim um ponto de cela.
+
+As curvas de n\'ivel de $f$, assim como o ponto cr\'itico encontrado pode ser visualizado tamb\'em graficamente na figura \ref{fig:graf01B_m05}.
 
 As figuras de \ref{fig:graf01_m01} a \ref{fig:graf01_m06} a seguir ilustram as curvas de n\'ivel de $f$ para os casos das fun\c c\~oes dos itens \ref{fun:01a} e \ref{fun:01b}, bem como a trajet\'oria dos pontos $\vec{x_{k}}$ associadoas ao algoritmo de minimiza\c c\~ao.
 
@@ -405,7 +424,7 @@ A tabela \ref{table:resultadosf2} apresenta os principais resultados dos algorit
       \label{table:resultadosf2}
 \end{table}
 
-No caso da fun\c c\~ao do item \ref{fun:02} nota-se que o elevado tempo de execu\c c\~ao do m\'todo de Powell (**) em rela\c c\~ao aos demais.
+No caso da fun\c c\~ao do item \ref{fun:02} nota-se que o elevado tempo de execu\c c\~ao do m\'etodo de Powell (**) em rela\c c\~ao aos demais.
 
 A figuras \ref{fig:graf02_ordem0}, \ref{fig:graf02_ordem1} e \ref{fig:graf02_ordem2} a seguir ilustram, para os seis m\'etodos, as curvas de n\'ivel de $f$ para os casos da fun\c c\~ao do item \ref{fun:02}, bem como a trajet\'oria dos pontos $\vec{x_{k}}$ associadoas ao algoritmo de minimiza\c c\~ao.
 
@@ -466,11 +485,13 @@ A figuras \ref{fig:graf02_ordem0}, \ref{fig:graf02_ordem1} e \ref{fig:graf02_ord
 
 A realiza\c c\~ao deste trabalho permitiu implementar os m\'etodos estudados na disciplina de otimiza\c c\~ao. Para todos os casos de aplica\c c\~ao, foram rodados os algortimos para outros pontos que n\~ao os pontos propostos no problema em si e cujo resultado mostrou que os algortimos de busca e miniza\c c\~ao s\~ao robustos, mesmo nos casos de fun\c c\~oes n\~ao quadr\'aticas.
 
-Em alguns poucos casos o algoritmo n\~ao obteve o resultado esperado, seja o n\'umero de passos at\'e a converg\^encia ou a converg\^encia em si n\~ao ter sido atingida. Em geral, notou-se que a converg\^encia, n\'umero de passos e o tempo de execu\c c\~ao dos algoritmos \'e muito sens\'ivel a escolha de seus par\^metros, o que reside nas incertezas num\'ericas associadas aos m\'etodos de busca linear, principalmente.
+Em alguns poucos casos o algoritmo n\~ao obteve o resultado esperado em rela\c c\~ao ao n\'umero de passos at\'e a converg\^encia. Em geral, notou-se que a converg\^encia, n\'umero de passos e o tempo de execu\c c\~ao dos algoritmos \'e muito sens\'ivel a escolha de seus par\^metros, o que reside nas incertezas num\'ericas associadas aos m\'etodos de busca linear, principalmente.
+
+Em um dos m\'etodos (Newton-Raphson) foi encontrado um ponto de cela e n\~ao um ponto de m\'inimo, mas este \'e um comportamento esperado do algoritmo j\'a que o mesmo se prop\~oe apenas a identificar os pontos cr\'iticos, candidatos a m\'inimo de $f$, sem entrar na avalia\c c\~ao da hessiana.
 
 \section{Anexos}
 
-A seguir est\~ao ilustrados alguns dos c\'odigos ou trechos de c\'odigos decritos na metodologia.
+A seguir est\~ao ilustrados alguns dos c\'odigos ou trechos de c\'odigos decritos na se\c c\~ao metodologia.
 
 \begin{minipage}{\linewidth}
       \begin{lstlisting}[style=myStyle, caption=script t01.m setando par\^ametros e criando as fun\c c\~oes, label=l1]

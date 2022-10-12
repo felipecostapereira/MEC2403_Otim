@@ -1,4 +1,4 @@
-function [x_,time_elap] = osr (f, gf, H, x0, method, iter_max, a, TOL, TOL2, epsilon)
+function [x_,time_elap] = osr (f, gf, H, x0, method, iter_max, a, TOL, TOL2)
     % 1. Univariante
     % 2. Powell
     % 3. Steepest Descent
@@ -24,7 +24,7 @@ function [x_,time_elap] = osr (f, gf, H, x0, method, iter_max, a, TOL, TOL2, eps
                     break;
                 end
                 [alpha_L, alpha_H] = passo_constante(f, x, d, a);
-                alpha_k = bissecao(f, x, d, TOL2, epsilon, alpha_L, alpha_H);
+                alpha_k = secao_aurea(f, x, d, TOL2, alpha_L, alpha_H);
                 x = x + alpha_k*d;
                 x_ = [x_,x];            
                 d = circshift(d,1);
@@ -32,14 +32,14 @@ function [x_,time_elap] = osr (f, gf, H, x0, method, iter_max, a, TOL, TOL2, eps
             end
     
             if conv == 0
-                fprintf('N\~ao convergiu ap\'os %d steps!', k);
+                fprintf('Não convergiu após %d steps!', k);
             end
     
         case 2
         % 2. Powell
             x_ = x0;
             x = x0;
-     
+
             while k < iter_max
                 j = 1;
                 n = 2;
@@ -47,27 +47,24 @@ function [x_,time_elap] = osr (f, gf, H, x0, method, iter_max, a, TOL, TOL2, eps
                 while j <= n
 
                     [alpha_L, alpha_H] = passo_constante(f, x, y(:,1), a);
-                    alpha_k = bissecao(f, x, y(:,1), TOL2, epsilon, alpha_L, alpha_H);
+                    alpha_k = secao_aurea(f, x, y(:,1), TOL2, alpha_L, alpha_H);
                     k=k+1;
                     x = x + alpha_k*y(:,1);
                     x_ = [x_,x];    
-%                     fprintf('k=%d, norm=%e\n',k,norm(gf(x)))
 
                     [alpha_L, alpha_H] = passo_constante(f, x, y(:,2), a);
-                    alpha_k = bissecao(f, x, y(:,2), TOL2, epsilon, alpha_L, alpha_H);
+                    alpha_k = secao_aurea(f, x, y(:,2), TOL2, alpha_L, alpha_H);
                     k=k+1;
                     x = x + alpha_k*y(:,2);
                     x_ = [x_,x];
-%                     fprintf('k=%d, norm=%e\n',k,norm(gf(x)))
 
                     d = x-x0;           
                     [alpha_L, alpha_H] = passo_constante(f, x, d, a);
-                    alpha_k = bissecao(f, x, d, TOL2, epsilon, alpha_L, alpha_H);
+                    alpha_k = secao_aurea(f, x, d, TOL2, alpha_L, alpha_H);
                     k=k+1;
                     x0 = x + alpha_k*d;
                     x=x0;
                     x_ = [x_,x];
-%                     fprintf('k=%d, norm=%e\n',k,norm(gf(x)))
                 
                     y(:,1) = y(:,2);
                     y(:,2) = d;
@@ -82,7 +79,7 @@ function [x_,time_elap] = osr (f, gf, H, x0, method, iter_max, a, TOL, TOL2, eps
             end
     
             if conv == 0
-                fprintf('N\~ao convergiu ap\'os %d steps', k);
+                fprintf('Não convergiu após %d steps', k);
             end
  
         case 3
@@ -98,7 +95,7 @@ function [x_,time_elap] = osr (f, gf, H, x0, method, iter_max, a, TOL, TOL2, eps
                     break;
                 end
                 [alpha_L, alpha_H] = passo_constante(f, x, d, a);
-                alpha_k = bissecao(f, x, d, TOL2, epsilon, alpha_L, alpha_H);
+                alpha_k = secao_aurea(f, x, d, TOL2, alpha_L, alpha_H);
                 x = x + alpha_k*d;
                 x_ = [x_,x];            
                                 
@@ -106,7 +103,7 @@ function [x_,time_elap] = osr (f, gf, H, x0, method, iter_max, a, TOL, TOL2, eps
             end
     
             if conv == 0
-                fprintf('N\~ao convergiu ap\'os %d steps', k);
+                fprintf('Não convergiu após %d steps', k);
             end
 
         case 4
@@ -122,7 +119,7 @@ function [x_,time_elap] = osr (f, gf, H, x0, method, iter_max, a, TOL, TOL2, eps
                     break;
                 end
                 [alpha_L, alpha_H] = passo_constante(f, x, d, a);
-                alpha_k = bissecao(f, x, d, TOL2, epsilon, alpha_L, alpha_H);
+                alpha_k = secao_aurea(f, x, d, TOL2, alpha_L, alpha_H);
                 xk = x;
                 x = x + alpha_k*d;
                 xk1 = x;
@@ -135,7 +132,7 @@ function [x_,time_elap] = osr (f, gf, H, x0, method, iter_max, a, TOL, TOL2, eps
             end
     
             if conv == 0
-                fprintf('N\~ao convergiu ap\'os %d steps', k);
+                fprintf('Não convergiu após %d steps', k);
             end
         
         case 5
@@ -150,7 +147,7 @@ function [x_,time_elap] = osr (f, gf, H, x0, method, iter_max, a, TOL, TOL2, eps
                     break;
                 end
                 [alpha_L, alpha_H] = passo_constante(f, x, d, a);
-                alpha_k = bissecao(f, x, d, TOL2, epsilon, alpha_L, alpha_H);
+                alpha_k = secao_aurea(f, x, d, TOL2, alpha_L, alpha_H);
                 x = x + alpha_k*d;
                 x_ = [x_,x];
 
@@ -159,7 +156,7 @@ function [x_,time_elap] = osr (f, gf, H, x0, method, iter_max, a, TOL, TOL2, eps
             end
     
             if conv == 0
-                fprintf('N\~ao convergiu ap\'os %d steps', k);
+                fprintf('Não convergiu após %d steps', k);
             end        
         case 6
         % 6. BFGS
@@ -174,7 +171,7 @@ function [x_,time_elap] = osr (f, gf, H, x0, method, iter_max, a, TOL, TOL2, eps
                     break;
                 end
                 [alpha_L, alpha_H] = passo_constante(f, x, d, a);
-                alpha_k = bissecao(f, x, d, TOL2, epsilon, alpha_L, alpha_H);
+                alpha_k = secao_aurea(f, x, d, TOL2, alpha_L, alpha_H);
                 xk = x;
                 x = x + alpha_k*d;
                 xk1 = x;
@@ -190,7 +187,7 @@ function [x_,time_elap] = osr (f, gf, H, x0, method, iter_max, a, TOL, TOL2, eps
             end
     
             if conv == 0
-                fprintf('N\~ao convergiu ap\'os %d steps', k);
+                fprintf('Não convergiu após %d steps', k);
             end
 
         otherwise
