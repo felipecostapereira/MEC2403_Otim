@@ -1,0 +1,53 @@
+************* PROBLEMA 01 - PENALIDADE *********************
+---Univariante---
+x=[0.9448,0.8923], f(x)=1.9447 (7 iter/70.3ms)
+---Powell---
+x=[0.9456,0.8941], f(x)=1.9461 (6 iter/198.4ms)
+---Steepest Descent---
+x=[0.9456,0.8941], f(x)=1.9459 (8 iter/20.8ms)
+---Fletcher Reeves---
+x=[0.9456,0.8941], f(x)=1.9459 (8 iter/5.9ms)
+---Newton-Raphson---
+x=[0.9456,0.8941], f(x)=1.9461 (5 iter/3.9ms)
+---BFGS---
+x=[0.9456,0.8941], f(x)=1.9462 (7 iter/2.4ms)
+************* PROBLEMA 01 - BARREIRA *********************
+---Univariante---
+x=[0.9467,0.8969], f(x)=1.9485 (6 iter/78.0ms)
+---Powell---
+x=[0.9453,0.8944], f(x)=1.9488 (11 iter/8615.5ms)
+---Steepest Descent---
+x=[0.9456,0.8948], f(x)=1.9485 (6 iter/797.9ms)
+---Fletcher Reeves---
+x=[0.9454,0.8944], f(x)=1.9485 (6 iter/297.1ms)
+---Newton-Raphson---
+x=[0.9456,0.8941], f(x)=1.9462 (10 iter/124.0ms)
+---BFGS---
+x=[0.9454,0.8944], f(x)=1.9485 (6 iter/239.1ms)
+************* PROBLEMA 02 - PENALIDADE *********************
+---Univariante---
+x=[1.8784,20.2363], f(x)=12.8128 (15 iter/144.3ms)
+---Powell---
+x=[1.8783,20.2365], f(x)=12.8127 (8 iter/247.3ms)
+---Steepest Descent---
+x=[1.8784,20.2357], f(x)=12.8129 (14 iter/5302.9ms)
+---Fletcher Reeves---
+x=[1.8783,20.2350], f(x)=12.8124 (12 iter/1920.4ms)
+---Newton-Raphson---
+x=[1.8783,20.2365], f(x)=12.8127 (15 iter/528.7ms)
+---BFGS---
+x=[1.8783,20.2363], f(x)=12.8127 (13 iter/6433.7ms)
+************* PROBLEMA 02 - BARREIRA *********************
+---Univariante---
+x=[1.8785,20.2389], f(x)=12.8143 (15 iter/13461.8ms)
+---Powell---
+x=[1.8785,20.2396], f(x)=12.8147 (13 iter/11053.0ms)
+---Steepest Descent---
+x=[1.8793,20.8871], f(x)=12.9492 (5 iter/9248.0ms)
+---Fletcher Reeves---
+x=[1.8855,20.3466], f(x)=12.8837 (5 iter/3708.0ms)
+---Newton-Raphson---
+x=[1.8784,20.2367], f(x)=12.8129 (8 iter/225.5ms)
+---BFGS---
+x=[1.8971,20.5055], f(x)=12.9950 (3 iter/1675.9ms)
+>>
