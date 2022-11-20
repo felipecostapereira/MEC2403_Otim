@@ -31,3 +31,7 @@ Repositorio para os exercicios da disciplina MEC2403
 #### Lista 4:
 
 - Lista_4_Felipe.pdf: Arquivo pdf da resolucao do exercicio
+#### Trabalho 2:
+
+- trab02_relatorio_Felipe.pdf: Arquivo pdf do trabalho
+- Os demais arquivos são os códigos dos scripts
