@@ -15,7 +15,8 @@ c1 = @(x) x(1)^2 - x(2);
 
 if wrun(1) == 1
 fprintf('************* PROBLEMA 01 - PENALIDADE *********************\n');
-x0 = [3;2]; %x0 = [0;4];
+x0 = [3;2];
+%x0 = [0;4]; % ponto alternativo
 alphas =    [0.002, 0.002, 0.002, 0.001, 0.05, 0.04];
 bs =        [5, 10, 5, 5, 20, 10];
 TOLS =      [1e-4, 1e-4, 1e-4, 1e-4, 1e-4, 1e-5];
@@ -80,7 +81,8 @@ end
 
 if wrun(2) == 1
 fprintf('************* PROBLEMA 01 - BARREIRA *********************\n');
-x0 = [0;1]; %x0 = [2.5;10];
+x0 = [0;1];
+%x0 = [2.5;10]; % ponto alternativo
 alphas =    [0.0002, 0.0002, 0.0002, 0.0002, 0.002, 0.0002];
 bs =        [0.05,      0.2,    0.05, 0.05, 0.05, 0.05];
 TOLS =      [2e-4,      6e-4,   2e-4, 2e-4, 1e-6, 2e-4];
@@ -126,7 +128,6 @@ for m = [1:6]
         x = x_(:,end);
         x_values = [x_values,x];
 
-        % testa se o ponto rompeu a barreira
         k=k+1;
 
         intervals = 10.^[-2:.5:5];
@@ -158,7 +159,8 @@ c2b = @(x) 1.0504*sqrt(x(2)^2+900)/(x(1)*x(2)) - 3.7011e2*(x(1)^2+0.01)/(x(2)^2+
 
 if wrun(3) == 1
 fprintf('************* PROBLEMA 02 - PENALIDADE *********************\n');
-x0 = [1;15]; %x0 = [3;3];
+x0 = [1;15];
+%x0 = [3;3]; %ponto alternativo
 alphas =    [0.005, 0.005, 0.0001,  0.0001, 0.0002, 0.0002];
 bs =        [10,    50,      10,    10,     10,       10];
 TOLS =      [1e-6,  1e-6,   2e-3,   1e-3,   1e-5,   5e-3];
@@ -258,7 +260,7 @@ if wrun(4) == 1
 fprintf('************* PROBLEMA 02 - BARREIRA *********************\n');
 x0 = [4;25];
 % x0 = [10;5];
-
+% verifica se o ponto alternativo) esta na regiao viavel
 % c2a(x0)
 % c2b(x0)
 alphas =    [0.0001,  0.0001,  0.00002, 0.00002, 0.001,   0.0002];

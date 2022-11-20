@@ -19,7 +19,7 @@
     frame=single,
     numbers=none,
     basicstyle=\ttfamily\footnotesize,
-%     basicstyle=\footnotesize\ttfamily,
+%     basicstyle=\ttfamily\footnotesize,
     keywordstyle=\bfseries\color{magenta},
     commentstyle=\color{codegreen},
     identifierstyle=\color{blue},
@@ -214,6 +214,29 @@ O passo a passo do m\'etodo da barreira \'e descrito na figura \ref{fig:algoritm
       \label{fig:algoritmoBarreira}
 \end{figure}
 
+\section{Metodologia}
+
+O fluxo de trabalho para solu\c c\~ao do problema de OCR est\'a descrito na figura \ref{fig:workflow} a seguir \'e v\'alido tanto para o m\'etodo de penalidade quanto para o m\'etodo de barreira.
+
+O primeiro passo \'e a inicializa\c c\~ao das fun\c c\~oes $f$, suas restri\c c\~oes $c_l$, que no caso dos problemas propostos s\~ao apenas de desigualdade, al\'em da escolha do ponto inicial $x^0$. Em seguida procede-se a escolha dos par\^ametros dos algoritmos de OSR e OCR: Toler\^ancias para verifica\c c\~ao da converg\^encia, $d\alpha$, $\beta$ e $r_p$ (ou $r_b$).
+
+Em seguida cria-se um looping de $m=1...6$ para varrer todos os m\'etodos de OSR: Univariante, Powell, Steepest-Descent, Fletcher-Reeves, Newton-Raphson e BFGS.
+
+ Para cada um desses m\'etodos cria-se o termo de penaliza\c c\~ao $p(\vec{x})$ ou $b(\vec{x})$ e a pseudo-fun\c c\~ao objetivo $\phi(\vec{x}, r)$, al\'em das fun\c c\~oes $\vec{\nabla} \phi(\vec{x}, r)$ e $\vec{H}(\phi(\vec{x}, r))$. Esses manipuladores de fun\c c\~ao s\~ao passados para o script OSR juntamente com o ponto $x^0$ para solu\c c\~ao do problema de otimiza\c c\~ao sem restri\c c\~ao da fun\c c\~ao $\phi$.
+
+ Ap\'os a solu\c c\~ao de $x^k$ pelo m\'etodo de OSR, plota-se as curvas de n\'ivel de $\phi$ e todos os pontos de solu\c c\~ao $x^0$, $x^1$, .... $x^(k-1)$, $x^k$ at\'e o passo atual, para evidenciar graficamente a trajet\'oria da solu\c c\~ao.
+
+ Por fim, avalia-se a convergencia do problema de OCR e caso n\~ao haja converg\^encia, proceder-se-\'a novo c\'alculo de $x^(k+1)$ a partir de $x^k$, para isso atualiza-se o valor de $r_p$ (ou $r_b$) e procede-se novo c\'alculo de OSR a partir do novo $x^k$. O passo a passo \'e repetido par todos os m\'etodos de busca direcional de OSR.
+
+\begin{figure}[H]
+      \centering
+      \includegraphics[width=.7\textwidth]{workflow.PNG}
+      \caption{Passo a passo para solu\c c\~ao do problema de OCR}
+      \label{fig:workflow}
+\end{figure}
+
+Os principais trechos dos scripts \textit{Matlab} utilizados ser\~ao listados na se\c c\~ao Anexos.
+
 \section{Resultados}
 
 Visando a converg\^encia de todos os m\'etodos, foram testados alguns valores dos par\^ametros dos algoritmos. A melhor combina\c c\~ao dos par\^ametros, para as fun\c c\~oes dos problemas 1 e 2 em termos de converg\~encia dos algoritmos est\'a listada na tabela \ref{table:params}.
@@ -222,6 +245,8 @@ O processo de busca linear implementado para solu\c c\~ao do problema de OSR pos
 
 Foram testados valores de toler\^ancias menores, na faixa de $10^{-6}$, e $d\alpha$ (passo da busca linear) maiores. Nesses casos, os algortimos at\'e convergiam, por\'em em temos muito longos, o que prejudicou a possibilidade de testes e execu\c c\~ao do trabalho. Dessa forma, o programa implementado para a solu\c c\~ao dos problemas de OCR utilizou os valores da tabela \ref{table:params}.
 
+Outro par\^ametro relevante foi n\'umero m\'aximo de itera\c c\~oes do algoritmo de OSR, para evitar que o algoritmo ficasse indefinidamente na busca pelo m\'inimo da fun\c c\~ao $\phi$, o que aconteceu para alguns valores de $r$, principalmente no problema 2 (barreira)
+
 \small
 $$
 \text{Par\^ametros:} \begin{cases}
@@ -229,7 +254,8 @@ $$
       \text{TOL(BL):    toler\^ancia associada ao algoritmo da Busca Linear no problema de OSR}\\
       \text{TOL(OCR):   toler\^ancia utilizada para verificar a converg\^encia dos algortimos de OCR}\\
       \text{TOL(SA):    toler\^ancia associada ao algoritmo da Se\c c\~ao \'Aurea no problema de OSR}\\
-      \text{$\beta$:    multiplicados do termo de penaliza\c c\~ao $r$ da pseudo-fun\c c\~ao objetivo do algoritmo de OCR}
+      \text{$\beta$:    multiplicados do termo de penaliza\c c\~ao $r$ da pseudo-fun\c c\~ao objetivo do algoritmo de OCR}\\
+      \text{iter\_max:  m\'aximo n\'umero de itera\c c\~oes do algoritmo de OSR}
 \end{cases}
 $$
 \normalsize
@@ -239,7 +265,7 @@ $$
       \centering
       \caption{Melhores par\^ametros para converg\^encia dos algoritmos}
       \begin{tabular}{c|c|c|c|c|c|c|c}
-            Problema & M\'etodo & Algoritmo & $d\alpha$ & TOL(BL) & TOL(OCR) & TOL(SA) & $\beta$ \\
+            Problema & M\'etodo & Algoritmo & $d\alpha$ & TOL(BL) & TOL(OCR) & TOL(SA) & $\beta$\\
             \hline
             \multirow{6}{*}{01} & \multirow{6}{*}{Penalidade} & Univariante       & 0.002 & $10^{-4}$ & $10^{-4}$ & $10^{-6}$ & 5   \\
                                                             & & Powell            & 0.002 & $10^{-4}$ & $10^{-4}$ & $10^{-5}$ & 10  \\
@@ -329,11 +355,11 @@ Sobrepostos \`as curvas de n\'ivel de $\phi(x_1, x_2)$, para cada passo $k=1....
 
 As figuras a seguir ilustram as curvas da solu\c c\~ao de OCR para a fun\c c\~ao a as restri\c c\~oes do problema 1
 
-Na figura \ref{fig:fig01} podemos ver a regi\~ao vi\'avel (acima da curva vermelha) e a converg\^encia do algoritmo pelo algortimo de Powell de OSR, assim como a deforma\c c\~ao de $\phi(x_1,x_2)$ a partir do ponto $x^0=\{3,2\}$. Nota-se tamb\'em a converg\^encia do algoritmo pela regi\~ao n\~ao vi\'avel (abaixo da curva vermelha).
+Na figura \ref{fig:fig01} podemos ver a regi\~ao vi\'avel (acima da curva vermelha) e a converg\^encia do algoritmo pelo algortimo de Powell de OSR pelo m\'etodo da penalidade, assim como a deforma\c c\~ao de $\phi(x_1,x_2)$ a partir do ponto $x^0=\{3,2\}$. Nota-se tamb\'em a converg\^encia do algoritmo pela regi\~ao n\~ao vi\'avel (abaixo da curva vermelha).
 
 \begin{figure}[H]
       \centering
-      \includegraphics[width=0.65\textwidth]{fig01_P01_PEN_X1_POW.png}
+      \includegraphics[width=0.75\textwidth]{fig01_P01_PEN_X1_POW.png}
       \caption{OCR do problema 01 pelo m\'etodo da penalidade, a partir do ponto $x^0=\{3,2\}$ - Algoritmo de Powell}
       \label{fig:fig01}
 \end{figure}
@@ -342,21 +368,22 @@ Para avaliar a robustez dos algoritmos, selecionamos um novo ponto $x^0=\{0,4\}$
 
 \begin{figure}[H]
       \centering
-      \includegraphics[width=0.65\textwidth]{fig02_P01_PEN_X2_FR.png}
+      \includegraphics[width=0.75\textwidth]{fig02_P01_PEN_X2_FR.png}
       \caption{OCR do problema 01 pelo m\'etodo da penalidade, a partir do ponto $x^0=\{0,4\}$ - Algoritmo de Flecher-Reeves}
       \label{fig:fig02}
 \end{figure}
 
-Para o mesmo problema 01, a figura \ref{fig:fig03} a seguir ilustra a converg\^enia, pelo m\'etodo de OSR univariante, a partir do ponto $x^0=\{0,1\}$. Desta vez \'e poss\'ivel notar que a regi\~ao associada \`a restri\c c\~ao (curva vermelha) vai se tornando uma barreira nas curvas de n\'ivel de $\phi$. Aqui, \'e importante que a solu\c c\~ao, em qualquer passo $k$, $x^k$ permane\c ca vi\'avel, ou seja, $c_l(x^k)<=0$, caso contr\'ario, o ponto $x^k$ "romper\'a" a barreira e a fun\c c\~ao ir\'a convergir para um ponto na regi\~ao n\~ao vi\'avel.
+Para o mesmo problema 01, a figura \ref{fig:fig03} a seguir ilustra a converg\^enia, pelo m\'etodo de OSR univariante, a partir do ponto $x^0=\{0,1\}$ e pelo m\'etodo de barreira.
+
+Desta vez \'e poss\'ivel notar que a regi\~ao associada \`a restri\c c\~ao (curva vermelha) vai se tornando uma barreira nas curvas de n\'ivel de $\phi$. Aqui, \'e importante que a solu\c c\~ao, em qualquer passo $k$, $x^k$ permane\c ca vi\'avel, ou seja, $c_l(x^k)<=0$, caso contr\'ario, o ponto $x^k$ "romper\'a" a barreira e a fun\c c\~ao ir\'a convergir para um ponto na regi\~ao n\~ao vi\'avel.
 
 \begin{figure}[H]
       \centering
-      \includegraphics[width=0.65\textwidth]{fig03_P01_BAR_X1_UNI.png}
+      \includegraphics[width=0.75\textwidth]{fig03_P01_BAR_X1_UNI.png}
       \caption{OCR do problema 01 pelo m\'etodo da barreira, a partir do ponto $x^0=\{0,1\}$ - Algoritmo Univariante}
       \label{fig:fig03}
 \end{figure}
 
-\newpage
 Para melhor visualiza\c c\~ao da pseudo-fun\c c\~ao objetivo acima plotamos os gr\'aficos de curvas de n\'ivel e 3D da fun\c c\~ao da eq. \ref{eqPhi1B} nas figuras \ref{fig:wolf_contour} e \ref{fig:wolf_3d}, respectivamente, onde fica claro a regi\~ao associada \`a restri\c c\~ao como sendo uma "descontinuidade" de $\phi$ e porque o m\'etodo \'e chamado de m\'etodo de barreira.
 
 \begin{equation} \label{eqPhi1B}
@@ -380,16 +407,15 @@ Para melhor visualiza\c c\~ao da pseudo-fun\c c\~ao objetivo acima plotamos os g
       \label{fig:wolf}
 \end{figure}
 
-Para avaliar a robustez do m\'etodo, selecionamos um novo ponto $x^0=\{2.5,10\}$, ainda vi\'avel, Na figura \ref{fig:fig04} ilustra-se tal caso pelo m\'etodo de Steepest-Descent.
+Para avaliar a robustez do m\'etodo, selecionamos um novo ponto $x^0=\{2.5,10\}$, ainda vi\'avel. Na figura \ref{fig:fig04} ilustra-se tal caso pelo m\'etodo de Steepest-Descent.
 
 \begin{figure}[H]
       \centering
-      \includegraphics[width=0.65\textwidth]{fig04_P01_BAR_X2_SD.png}
+      \includegraphics[width=0.75\textwidth]{fig04_P01_BAR_X2_SD.png}
       \caption{OCR do problema 01 pelo m\'etodo da barreira, a partir do ponto $x^0=\{2.5,10\}$ - Algoritmo Steepest Descent}
       \label{fig:fig04}
 \end{figure}
 
-\newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 % PROBLEMA 02
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -402,302 +428,457 @@ Nota-se nesses dois gr\'aficos a maior complexidade da fun\c c\~ao e o consequen
 
 \begin{figure}[H]
       \centering
-      \includegraphics[width=0.65\textwidth]{fig05_P02_PEN_X1_FR.png}
+      \includegraphics[width=0.8\textwidth]{fig05_P02_PEN_X1_FR.png}
       \caption{OCR do problema 02 pelo m\'etodo da penalidade, a partir do ponto $x^0=\{1,15\}$ - Algoritmo de Flecher-Reeves}
       \label{fig:fig05}
 \end{figure}
 \begin{figure}[H]
       \centering
-      \includegraphics[width=0.65\textwidth]{fig06_P02_PEN_X2_UNI.png}
+      \includegraphics[width=0.8\textwidth]{fig06_P02_PEN_X2_UNI.png}
       \caption{OCR do problema 02 pelo m\'etodo da penalidade, a partir do ponto $x^0=\{3,3\}$ - Algoritmo Univariante}
       \label{fig:fig06}
 \end{figure}
-
-\newpage
 
 Nas figuras \ref{fig:fig07} e \ref{fig:fig08} a seguir ilustra-se as converg\^encias do algoritmo de OCR pelo m\'etodo de barreira para dois pontos de partida distintos: $x^0=\{4,25\}$ e $x^0=\{10,5\}$, respecivamente. O primeiro utilizando, para OSR o m\'etodo de dire\c c\~oes de busca de Newton-Raphson e o segundo, Fletcher-Reeves.
 
 \begin{figure}[H]
       \centering
-      \includegraphics[width=0.65\textwidth]{fig07_P02_BAR_X1_NR.png}
+      \includegraphics[width=0.7\textwidth]{fig07_P02_BAR_X1_NR.png}
       \caption{OCR do problema 02 pelo m\'etodo da barreira, a partir do ponto $x^0=\{4,25\}$ - Algoritmo de Newton-Raphson}
       \label{fig:fig07}
 \end{figure}
 \begin{figure}[H]
       \centering
-      \includegraphics[width=0.65\textwidth]{fig08_P02_BAR_X2_FR.png}
+      \includegraphics[width=0.7\textwidth]{fig08_P02_BAR_X2_FR.png}
       \caption{OCR do problema 02 pelo m\'etodo da barreira, a partir do ponto $x^0=\{10,5\}$ - Algoritmo de Fletcher-Reeves}
       \label{fig:fig08}
 \end{figure}
 
-
 \section{Conclus\~oes}
 
-A realiza\c c\~ao deste trabalho permitiu implementar os m\'etodos estudados na disciplina de otimiza\c c\~ao. Para todos os casos de aplica\c c\~ao, foram rodados os algortimos para outros pontos que n\~ao os pontos propostos no problema em si e cujo resultado mostrou que os algortimos de busca e miniza\c c\~ao s\~ao robustos, mesmo nos casos de fun\c c\~oes n\~ao quadr\'aticas.
+A realiza\c c\~ao deste trabalho permitiu implementar os m\'etodos indiretos de solu\c c\~ao de problemas de otimiza\c c\~ao com restri\c c\~ao (OCR) estudados na disciplina de otimiza\c c\~ao. Para todos os casos de aplica\c c\~ao, foram rodados os algortimos para outros pontos que n\~ao os pontos propostos no problema em si e cujo resultado mostrou que os algortimos de busca e miniza\c c\~ao s\~ao robustos.
 
-Em alguns poucos casos o algoritmo n\~ao obteve o resultado esperado em rela\c c\~ao ao n\'umero de passos at\'e a converg\^encia. Em geral, notou-se que a converg\^encia, n\'umero de passos e o tempo de execu\c c\~ao dos algoritmos \'e muito sens\'ivel a escolha de seus par\^metros, o que reside nas incertezas num\'ericas associadas aos m\'etodos de busca linear, principalmente.
+Devido \`as inefici\^encias do m\'etodo de busca linear e a maior complexidade da pseudo-fun\c c\~ao objetivo a partir da incorpora\c c\~ao dos termos de penalidade, foi necess\'ario ajustar os par\^ametros dos algoritmos para se obter a converg\^encia.
 
-Em um dos m\'etodos (Newton-Raphson) foi encontrado um ponto de cela e n\~ao um ponto de m\'inimo, mas este \'e um comportamento esperado do algoritmo j\'a que o mesmo se prop\~oe apenas a identificar os pontos cr\'iticos, candidatos a m\'inimo de $f$, sem entrar na avalia\c c\~ao da hessiana.
+No problema 02, dadas as constantes f\'isicas associadas ao problema, que impuseram \`as fun\c c\~oes alguns termos com n\'umeros grandes, foi fundamental a normaliza\c c\~ao das restri\c c\~oes para sua converg\^encia.
+
+Em geral, notou-se que a converg\^encia, n\'umero de passos e o tempo de execu\c c\~ao dos algoritmos \'e muito sens\'ivel a escolha de seus par\^metros, o que reside nas incertezas num\'ericas associadas aos m\'etodos de busca linear, principalmente.
+
+Apesar da solu\c cao do problema de OSR para algumas configura\c c\~oes da fun\c c\~ao $\phi$ n\~ao ter convergido em alguns passos, a melhor solu\c c\~ao aproximada at\'e o n\'umero m\'aximo de itera\c c\~oes foi suficiente para a converg\^encia geral do problema de OCR.
 
 \section{Anexos}
 
 A seguir est\~ao ilustrados alguns dos c\'odigos ou trechos de c\'odigos decritos na se\c c\~ao metodologia.
 
 \begin{minipage}{\linewidth}
-      \begin{lstlisting}[style=myStyle, caption=script t01.m setando par\^ametros e criando as fun\c c\~oes, label=l1]
-            % dados do item 01a, f, grad f, hess f e x0
-            fa = @(x) x(1)^2-3*x(1)*x(2)+4*x(2)^2+x(1)-x(2);
-            gfa = @(x) [2*x(1)-3*x(2)+1 ; -3*x(1)+8*x(2)-1];
-            Ha = @(x) [2 -3;-3 8];
-            x01 = [2;2];
-            x02 = [-1;-3];
+      \begin{lstlisting}[style=myStyle, caption=Inicializa\c c\~ao e dados do problema 01, label=list_prob01]
             % parametros dos algoritmos
-            iter_max = 100;
-            a = 0.002; % passo
-            TOL = 1e-4; % parada do gradiente
-            TOL2 = 1e-7; % busca linear
+            iter_max = 500;
             methods = ["Univariante","Powell","Steepest Descent","Fletcher Reeves","Newton-Raphson","BFGS"];
+
+            % dados do item 01
+            f1 = @(x) (x(1)-2)^4 + (x(1)-2*x(2))^2;
+            gf1 = @(x) [2*(2*(x(1)-2)^3 + x(1) - 2*x(2)); 8*x(2)-4*x(1)];
+            c1 = @(x) x(1)^2 - x(2);
       \end{lstlisting}
 \end{minipage}
 
 \begin{minipage}{\linewidth}
-      \begin{lstlisting}[style=myStyle, caption=script t01.m chamando o script osr.m para a fun\c c\~ao do item 1a para cada um dos 6 m\'etodos estudados, label=l2]
-            fprintf('\n******************** ITEM 01A ************************\n');
-            for method = 1:6
-                fprintf('---%s---\n', methods(method));
+      \begin{lstlisting}[style=myStyle, caption= defini\c c\~ao das fun\c c\~oes e restri\c c\~oes do problema 02, label=list_prob02]
+            % dados do item 02
+            % ro = 0.3;
+            % B = 30;
+            % P = 33e3;
+            % t = 0.1;
+            % E = 3e7;
+            % sy = 1e5;
+            % f2 = @(x) 2*ro*pi()*x(1)*t*sqrt(x(2)^2+B^2);
+            f2 = @(x) 0.1885*x(1)*sqrt(x(2)^2+900);
+            c2a = @(x) 1.0504*sqrt(x(2)^2+900)/(x(1)*x(2)) - 1;
+            c2b = @(x) 1.0504*sqrt(x(2)^2+900)/(x(1)*x(2)) - 3.7011e2*(x(1)^2+0.01)/(x(2)^2+900);
+      \end{lstlisting}
+\end{minipage}
 
-                fprintf('x0=[%2d,%2d]: ',x01(1), x01(2));
-                [x_1,t] = osr (fa, gfa, Ha, x01, method, iter_max, a, TOL, TOL2);
-                fprintf('(%.1fms), xmin=[%0.4f,%0.4f], f=%0.4f\n', t*1000, x_1(1,end), x_1(2,end), fa(x_1(:,end)));
+\begin{minipage}{\linewidth}
+      \begin{lstlisting}[style=myStyle, caption= trecho de c\'odigo do problema 01 (penalidade), label=list_p01_pen]
+            fprintf('************* PROBLEMA 01 - PENALIDADE *********************\n');
+            x0 = [3;2];
+            %x0 = [0;4]; % ponto alternativo
+            alphas =    [0.002, 0.002, 0.002, 0.001, 0.05, 0.04];
+            bs =        [5, 10, 5, 5, 20, 10];
+            TOLS =      [1e-4, 1e-4, 1e-4, 1e-4, 1e-4, 1e-5];
+            TOLS2 =     [1e-6, 1e-5, 1e-9, 1e-7, 1e-7, 1e-8];
+            plot_model = 0; %escolher qual metodo sera plotado
 
-                fprintf('x0=[%2d,%2d]: ',x02(1), x02(2));
-                [x_2,t] = osr (fa, gfa, Ha, x02, method, iter_max, a, TOL, TOL2);
-                fprintf('(%.1fms), xmin=[%0.4f,%0.4f], f=%0.4f\n', t*1000, x_2(1,end), x_2(2,end), fa(x_2(:,end)));
-
-                plot_result(min([x_1(1,:), x_2(1,:)])-dx,max([x_1(1,:), x_2(1,:)])+dx,min([x_1(2,:), x_2(2,:)])-dx,max([x_1(2,:), x_2(2,:)])+dx, x_1, x_2, methods(method), 1)
-                exportgraphics(gcf,strcat('./figures/img01A_m0',num2str(method),'.png'),'Resolution',500)
+            if plot_model ~= 0
+                figure
+                i=3;
+                j=3;
             end
-      \end{lstlisting}
-\end{minipage}
+            for m = [1:6]
+                k=0;
+                x=x0;
+                x_values = x;
+                rp=0.1;
 
-\begin{minipage}{\linewidth}
-      \begin{lstlisting}[style=myStyle, caption=script osr.m implementando o m\'etodo de Powell, label=list_osr]
-            function [x_,time_elap] = osr (f, gf, H, x0, method, iter_max, a, TOL, TOL2)
-            % 1. Univariante
-            % 2. Powell
-            % 3. Steepest Descent
-            % 4. Flecher?Reeves
-            % 5. Newton?Raphson
-            % 6. BFGS
+                tstart = tic;
+                fprintf('---%s---\n', methods(m));
 
-            k=0;
-            conv=0; %flag convergencia
-            tstart = tic;
-            switch method
-                case 2
-                % 2. Powell
-                    x_ = x0;
-                    x = x0;
-                    while k < iter_max
-                        j = 1;
-                        n = 2;
-                        y = [[1;0],[0;1]];
-                        while j <= n
-                            [alpha_L, alpha_H] = passo_constante(f, x, y(:,1), a);
-                            alpha_k = secao_aurea(f, x, y(:,1), TOL2, alpha_L, alpha_H);
-                            k=k+1;
-                            x = x + alpha_k*y(:,1);
-                            x_ = [x_,x];
-                            [alpha_L, alpha_H] = passo_constante(f, x, y(:,2), a);
-                            alpha_k = secao_aurea(f, x, y(:,2), TOL2, alpha_L, alpha_H);
-                            k=k+1;
-                            x = x + alpha_k*y(:,2);
-                            x_ = [x_,x];
-                            d = x-x0;
-                            [alpha_L, alpha_H] = passo_constante(f, x, d, a);
-                            alpha_k = secao_aurea(f, x, d, TOL2, alpha_L, alpha_H);
-                            k=k+1;
-                            x0 = x + alpha_k*d;
-                            x=x0;
-                            x_ = [x_,x];
-
-                            y(:,1) = y(:,2);
-                            y(:,2) = d;
-
-                            j = j+1;
-                        end
-                        if norm(gf(x)) < TOL
-                            fprintf('%d steps!', k);
-                            conv=1;
-                            break;
-                        end
+                while k < iter_max
+                    if c1(x) < 0
+                        a = 0;
+                    else
+                        a = 1;
                     end
-                    if conv == 0
-                        fprintf('Nao convergiu apos %d steps', k);
-                    end
-      \end{lstlisting}
-\end{minipage}
+                    rp = bs(m)*rp;
 
-\begin{minipage}{\linewidth}
-      \begin{lstlisting}[style=myStyle, caption=script passo\_constante.m, label=list_passo_constante]
-      function [alpha_L, alpha_H] = passo_constante(f, x0, d, a)
-            alpha = 0;
-            f_min = Inf;
-            f_val = f(x0);
-            alphas = [];
-            f1 = f(x0 - a*d);
-            f2 = f(x0 + a*d);
-            if f1 < f2
-                a=-a; % desce a esq (d-)
-            end
-            while f_val <= f_min
-                x = x0 + alpha * d;
-                f_val = f(x);
-                if f_val < f_min
-                    f_min = f_val;
+                    p1 = @(x) a * c1(x)^2;
+                    phi1 = @(x) f1(x) + 1/2 * rp * p1(x);
+                    gphi1 = @(x) [2*(a*rp*x(1)*(x(1)^2-x(2))+2*(x(1)-2)^3+x(1)-2*x(2)); -a*rp*x(1)^2+x(2)*(a*rp+8)-4*x(1)];
+                    hess1 = @(x) ...
+                        [[2*a*rp*(x(1)^2-x(2)) + 4*a*rp*x(1)^2 + 12*(x(1) - 2)^2 + 2, -2*a*rp*x(1) - 4];
+                        [-2*a*rp*x(1) - 4, a*rp + 8]];
+
+                    [x_] = osr_noprint(phi1, gphi1, hess1, x, m, iter_max, alphas(m), TOLS(m), TOLS2(m));
+                    k=k+1;
+
+                    if 1/2*p1(x)*rp < TOLS(m)*10 && p1(x) ~= 0
+                        conv=1;
+                        fprintf('x=[%.4f,%.4f], f(x)=%.4f (%d iter/%.1fms)\n', x(1), x(2), f1(x), k-1, toc(tstart)*1000);
+                        break;
+                    end
+                    x = x_(:,end);
+                    x_values = [x_values,x];
+
+                    intervals = [0 1 2 5 10 25 100:500:10000];
+                    if m == plot_model
+                        phi1_plot = @(x1,x2) (x1-2).^4 + (x1-2*x2).^2+1/2*a*rp*(x1.^2-x2).^2;
+                        c_plot = @(x1) x1.^2;
+                        intervals = intervals*10;
+                        tit = strcat(methods(m), ' (k=',num2str(k),')');
+                        plot_phi(-3, 3, 0, 9, phi1_plot, intervals, c_plot, x_values, tit, k, i, j);
+                    end
                 end
-                alphas = [alphas; alpha];
-                alpha = alpha + a;
+                            if ~conv
+                    fprintf('\n nao deu');
+                end
             end
-            alpha_L = alphas(end-1);
-            alpha_H = alphas(end);
-            if a < 0
-                alpha_H = alphas(end-1);
-                alpha_L = alphas(end);
-            end
-        end
       \end{lstlisting}
 \end{minipage}
 
+
 \begin{minipage}{\linewidth}
-      \begin{lstlisting}[style=myStyle, caption=script secao\_aurea.m, label=list_secao_aurea]
-      function alpha_k = secao_aurea (f, x0, d, TOL, alpha_L, alpha_H)
-            ra = (sqrt(5)-1)/2;
-            b = norm(alpha_L-alpha_H);
-            alpha_E = alpha_L + (1-ra)*b;
-            alpha_D = alpha_L + ra*b;
-            f1 = f(x0 + alpha_E * d);
-            f2 = f(x0 + alpha_D * d);
-            while b > TOL
-                  if f1 > f2
-                        alpha_L = alpha_E;
-                        alpha_E = alpha_D;
-                        b = norm(alpha_L-alpha_H);
-                        alpha_D = alpha_L + ra*b;
-                        % avaliar menos vezes a funcao f
-                        f1 = f2;
-                        f2 = f(x0 + alpha_D * d);
-                  else
-                        alpha_H = alpha_D;
-                        alpha_D = alpha_E;
-                        b = norm(alpha_L-alpha_H);
-                        alpha_E = alpha_L + (1-ra)*b;
-                        % avaliar menos vezes a funcao f
-                        f2 = f1;
-                        f1 = f(x0 + alpha_E * d);
+      \begin{lstlisting}[style=myStyle, caption= trecho de c\'odigo do problema 01 (barreira), label=list_p01_bar]
+            fprintf('************* PROBLEMA 01 - BARREIRA *********************\n');
+            x0 = [0;1];
+            %x0 = [2.5;10]; % ponto alternativo
+            alphas =    [0.0002, 0.0002, 0.0002, 0.0002, 0.002, 0.0002];
+            bs =        [0.05,      0.2,    0.05, 0.05, 0.05, 0.05];
+            TOLS =      [2e-4,      6e-4,   2e-4, 2e-4, 1e-6, 2e-4];
+            TOLS2 =     [1e-8,      1e-5,   1e-7, 1e-7, 1e-7, 1e-5];
+            plot_model = 0;
+
+            if plot_model ~= 0
+            figure
+            i=2;
+            j=3;
+            end
+            for m = [1:6]
+            k=0;
+            x=x0;
+            x_values = x;
+            rb=100;
+
+            tstart = tic;
+            fprintf('---%s---\n', methods(m));
+
+            while k < iter_max
+                  rb = bs(m)*rb;
+                  b1 = @(x) - c1(x)^(-1);
+                  phib1 = @(x) f1(x) + rb * b1(x); % (x-2)^4 + (x-2y)^2 - a/(x^2-y)
+
+                  gphib1 = @(x) ... % (2 ((a x)/(x^2 - y)^2 + 2 (x - 2)^3 + x - 2 y), -a/(x^2 - y)^2 - 4 x + 8 y)
+                        [2*((rb*x(1))/(x(1)^2-x(2))^2 + 2*(x(1)-2)^3 + x(1)-2*x(2)); ...
+                        -rb/(x(1)^2-x(2))^2 - 4*x(1)+8*x(2)];
+
+                  hessb1 = @(x) ...
+                        [[2 + 12*(-2 + x(1))^2 - (8*rb*x(1)^2)/(x(1)^2 - x(2))^3 + (2*rb)/(x(1)^2 - x(2))^2, -4 + (4*rb*x(1))/(x(1)^2 - x(2))^3]; ...
+                        [-4 + (4*rb*x(1))/(x(1)^2 - x(2))^3, 8 - (2*rb)/(x(1)^2 - x(2))^3]];
+
+                  [x_] = osr_noprint(phib1, gphib1, hessb1, x, m, iter_max, alphas(m), TOLS(m), TOLS2(m));
+
+                  b1(x)*rb;
+                  if b1(x)*rb < TOLS(m)
+                        conv=1;
+                        c1(x);
+                        fprintf('x=[%.4f,%.4f], f(x)=%.4f (%d iter/%.1fms)\n', x(1), x(2), f1(x), k, toc(tstart)*1000);
+                        break;
+                  end
+                  x = x_(:,end);
+                  x_values = [x_values,x];
+
+                  k=k+1;
+
+                  intervals = 10.^[-2:.5:5];
+                  if m == plot_model
+                        phib1_plot = @(x1,x2) (x1-2).^4 + (x1-2*x2).^2 - rb./(x1.^2-x2);
+                        c_plot = @(x1) x1.^2;
+                        tit = strcat(methods(m), ' (k=',num2str(k),')');
+                        plot_phi(-2, 2, 0, 4, phib1_plot, intervals, c_plot, x_values, tit, k, i , j);
                   end
             end
-            alpha_k = (alpha_L+alpha_H)/2;
-      end
+
+            if ~conv
+                  fprintf('\n nao deu');
+            end
+      \end{lstlisting}
+\end{minipage}
+
+
+\begin{minipage}{\linewidth}
+      \begin{lstlisting}[style=myStyle, caption= trecho de c\'odigo do problema 02 (penalidade) (1/2), label=list_p02_pen_1]
+            x0 = [1;15];
+            %x0 = [3;3]; %ponto alternativo
+            alphas =    [0.005, 0.005, 0.0001,  0.0001, 0.0002, 0.0002];
+            bs =        [10,    50,      10,    10,     10,       10];
+            TOLS =      [1e-6,  1e-6,   2e-3,   1e-3,   1e-5,   5e-3];
+            TOLS_OCR =  [1e-6,  1e-6,   1e-4,   5e-4,   1e-6,   1e-4];
+            TOLS2 =     [1e-7,  1e-5,   1e-7,   1e-7,   1e-7,   1e-7];
+            plot_model = 0;
+
+            if plot_model ~= 0
+            figure
+            i=4;
+            j=4;
+            end
+            for m = [1:6]
+            k=0;
+            x=x0;
+            x_values = x;
+            rp=1e-8;
+
+            tstart = tic;
+            fprintf('---%s---\n', methods(m));
+
+            while k < 20
+                  if c2a(x) < 0
+                        a(1) = 0;
+                  else
+                        a(1) = 1;
+                  end
+                  if c2b(x) < 0
+                        a(2) = 0;
+                  else
+                        a(2) = 1;
+                  end
+
+                  rp = bs(m)*rp;
+                  p2 = @(x) a(1) * c2a(x)^2 + a(2) * c2b(x)^2;
+                  phi2 = @(x) f2(x) + 1/2 * rp * p2(x);
+
+                  g2f = @(x) ...
+                  [0.1885*sqrt(x(2)^2+900);
+                  (0.1885*x(1)*x(2))/sqrt(x(2)^2+900)];
+                  g2c1 = @(x) ...
+                  [(a(1)*rp*(1.0504*x(1)*sqrt(x(2)^2+900)*x(2)-1.10334*x(2)^2-993.006))/(x(1)^3*x(2)^2);
+                  (a(1)*rp*((945.36*x(1)*x(2))/sqrt(x(2)^2+900)-993.006))/(x(1)^2*x(2)^3)];
+                  g2c2 = @(x) ...
+                  [a(2)*rp*(-(1.0504*sqrt(x(2)^2 + 900))/(x(1)^2*x(2)) - (740.22*x(1))/(x(2)^2 + 900))*((1.0504*sqrt(x(2)^2 + 900))/(x(1)*x(2)) - (370.11*(x(1)^2 + 0.01))/(x(2)^2 + 900));
+                  a(2)*rp*((740.22*x(1)^2*x(2))/(x(2)^2 + 900)^2 - 945.36/(x(1)*x(2)^2*sqrt(x(2)^2 + 900)) + (7.4022*x(2))/(x(2)^2 + 900)^2)*((1.0504*sqrt(x(2)^2 + 900))/(x(1)*x(2)) - (370.11*(x(1)^2 + 0.01))/(x(2)^2 + 900))];
+
+                  gphi2 = @(x) g2f(x)+g2c1(x)+g2c2(x);
+
+                  hess2 = @(x) ...
+                        [[(1.10334*a(1)*rp*(900 + x(2)^2))/(x(1)^4*x(2)^2) + a(2)*rp*((-740.22*x(1))/(900 + x(2)^2) - (1.0504*sqrt(900 + x(2)^2))/(x(1)^2*x(2)))^2 + (2.1008*a(1)*rp*sqrt(900 + x(2)^2)*(-1 + (1.0504*sqrt(900 + x(2)^2))/(x(1)*x(2))))/(x(1)^3*x(2)) + a(2)*rp*(-740.22/(900 + x(2)^2) + (2.1008*sqrt(900 + x(2)^2))/(x(1)^3*x(2)))*((-370.11*(0.01 + x(1)^2))/(900 + x(2)^2) + (1.0504*sqrt(900 + x(2)^2))/(x(1)*x(2))), ...
       \end{lstlisting}
 \end{minipage}
 
 \begin{minipage}{\linewidth}
-      \begin{lstlisting}[style=myStyle, caption=script plot\_result.m, label=list_plot_result]
-      function [] = plot_result(xmin, xmax, ymin, ymax, x_, x2_, graph_title, func)
-            n = length(x_);
-            n2 = length(x2_);
-            figure
-            x1 = linspace(xmin, xmax, 100);
-            x2 = linspace(ymin, ymax, 100);
-            [x1,x2] = meshgrid(x1,x2);
-            if func == 1
-                fplot = x1.^2 - 3*x1.*x2 + 4*x2.^2 + x1 - x2;
-                contour(x1, x2, fplot, [0 2 8 15 30:20:120], 'ShowText','on');
-            elseif func == 2
-                fplot = (11-x1-x2).^2 + (1+x1+10*x2-x1.*x2).^2;
-                contour(x1, x2, fplot, [50 122 200 1000 1625 5000 10000], 'ShowText','on')
-            else
-                fplot = 450*(sqrt((30+x1).^2+x2.^2)-30).^2+300*(sqrt((30-x1).^2+x2.^2)-30).^2-360*x2;
-                contour(x1, x2, fplot, 'ShowText','on')
+      \begin{lstlisting}[style=myStyle, caption= trecho de c\'odigo do problema 02 (penalidade) (2/2), label=list_p02_pen_2]
+                        (0.1885*x(2))/sqrt(900 + x(2)^2) - (1.0504*a(1)*rp*sqrt(900 + x(2)^2)*(1.0504/(x(1)*sqrt(900 + x(2)^2)) - (1.0504*sqrt(900 + x(2)^2))/(x(1)*x(2)^2)))/(x(1)^2*x(2)) + a(2)*rp*((740.22* (0.01 + x(1)^2)*x(2))/(900 + x(2)^2)^2 + 1.0504/(x(1)*sqrt(900 + x(2)^2)) - (1.0504*sqrt(900 + x(2)^2))/(x(1)*x(2)^2))*((-740.22*x(1))/(900 + x(2)^2) - (1.0504*sqrt(900 + x(2)^2))/(x(1)^2*x(2))) - (1.0504*a(1)*rp*(-1 + (1.0504*sqrt(900 + x(2)^2))/(x(1)*x(2))))/(x(1)^2*sqrt(900 + x(2)^2)) + (1.0504*a(1)*rp*sqrt(900 + x(2)^2)*(-1 + (1.0504*sqrt(900 + x(2)^2))/(x(1)*x(2))))/(x(1)^2*x(2)^2) + a(2)*rp*((1480.44*x(1)*x(2))/(900 + x(2)^2)^2 - 1.0504/(x(1)^2*sqrt(900 + x(2)^2)) + (1.0504*sqrt(900 + x(2)^2))/(x(1)^2*x(2)^2))* ((-370.11*(0.01 + x(1)^2))/(900 + x(2)^2) + (1.0504*sqrt(900 + x(2)^2))/(x(1)*x(2)))]; ...
+                        [(0.1885*x(2))/sqrt(900 + x(2)^2) - (1.0504*a(1)*rp*sqrt(900 + x(2)^2)*(1.0504/(x(1)*sqrt(900 + x(2)^2)) - (1.0504*sqrt(900 + x(2)^2))/(x(1)*x(2)^2)))/(x(1)^2*x(2)) + a(2)*rp*((740.22* (0.01 + x(1)^2)*x(2))/(900 + x(2)^2)^2 + 1.0504/(x(1)*sqrt(900 + x(2)^2)) - (1.0504*sqrt(900 + x(2)^2))/(x(1)*x(2)^2))*((-740.22*x(1))/(900 + x(2)^2) - (1.0504*sqrt(900 + x(2)^2))/(x(1)^2*x(2))) - (1.0504*a(1)*rp*(-1 + (1.0504*sqrt(900 + x(2)^2))/(x(1)*x(2))))/(x(1)^2*sqrt(900 + x(2)^2)) + (1.0504*a(1)*rp*sqrt(900 + x(2)^2)*(-1 + (1.0504*sqrt(900 + x(2)^2))/(x(1)*x(2))))/(x(1)^2*x(2)^2) + a(2)*rp*((1480.44*x(1)*x(2))/(900 + x(2)^2)^2 - 1.0504/(x(1)^2*sqrt(900 + x(2)^2)) + (1.0504*sqrt(900 + x(2)^2))/(x(1)^2*x(2)^2))* ((-370.11*(0.01 + x(1)^2))/(900 + x(2)^2) + (1.0504*sqrt(900 + x(2)^2))/(x(1)*x(2))), ...
+                        (-0.1885*x(1)*x(2)^2)/(900 + x(2)^2)^(3/2) + (0.1885*x(1))/sqrt(900 + x(2)^2) + a(1)*rp*(1.0504/(x(1)*sqrt(900 + x(2)^2)) - (1.0504*sqrt(900 + x(2)^2))/(x(1)*x(2)^2))^2 + a(2)*rp*((740.22*(0.01 + x(1)^2)*x(2))/(900 + x(2)^2)^2 + 1.0504/(x(1)*sqrt(900 + x(2)^2)) - (1.0504*sqrt(900 + x(2)^2))/(x(1)*x(2)^2))^2 + a(1)*rp*((-1.0504*x(2))/(x(1)*(900 + x(2)^2)^(3/2)) - 1.0504/(x(1)*x(2)*sqrt(900 + x(2)^2)) + (2.1008*sqrt(900 + x(2)^2))/(x(1)*x(2)^3))*(-1 + (1.0504*sqrt(900 + x(2)^2))/(x(1)*x(2))) + a(2)*rp*((-2960.88*(0.01 + x(1)^2)*x(2)^2)/(900 + x(2)^2)^3 + (740.22*(0.01 + x(1)^2))/(900 + x(2)^2)^2 - (1.0504*x(2))/(x(1)*(900 + x(2)^2)^(3/2)) - 1.0504/(x(1)*x(2)*sqrt(900 + x(2)^2)) + (2.1008*sqrt(900 + x(2)^2))/(x(1)*x(2)^3))*((-370.11*(0.01 + x(1)^2))/(900 + x(2)^2) + (1.0504*sqrt(900 + x(2)^2))/(x(1)*x(2)))]];
+
+                  [x_] = osr_noprint(phi2, gphi2, hess2, x, m, 400, alphas(m), TOLS(m), TOLS2(m));
+                  x = x_(:,end);
+                  x_values = [x_values,x];
+                  k=k+1;
+
+                  if 1/2*p2(x)*rp < TOLS_OCR(m)
+                        conv=1;
+                        fprintf('x=[%.4f,%.4f], f(x)=%.4f (%d iter/%.1fms)\n', x(1), x(2), f2(x), k-1, toc(tstart)*1000);
+                        break;
+                  end
+
+                  intervals=10.^[-3:.1:6];
+                  if m == plot_model
+                        phi2_plot = @(x1,x2) ...
+                        0.1885.*x1.*sqrt(x2.^2+900) + ...
+                        1/2*rp*a(1)*(1.0504.*sqrt(x2.^2+900)./(x1.*x2) - 1).^2 + ...
+                        1/2*rp*a(2)*(1.0504.*sqrt(x2.^2+900)./(x1.*x2) - 3.7011e2.*(x1.^2+0.01)./(x2.^2+900)).^2;
+                        c_plot = @(x1) -1;
+                        tit = strcat(methods(m), ' (k=',num2str(k),')');
+                        plot_phi(0, 4, 1, 100, phi2_plot, intervals, c_plot, x_values, tit, k, i, j);
+                  end
             end
-            title(graph_title)
-            xlabel('$x_{1}$', 'Interpreter', 'latex')
-            ylabel('$x_{2}$', 'Interpreter', 'latex')
-            hold on
-            for k = 1:n
-                plot(x_(1,k), x_(2,k),'o', 'LineWidth', 2, 'MarkerSize', 10)
-                if k<n
-                    desenha_flecha(x_(:,k)', x_(:,k+1)', 'k');
-                end
+            if ~conv
+                  fprintf('\n nao deu');
             end
-            if ~ isempty(x2_)
-                for k = 1:n2
-                    plot(x2_(1,k), x2_(2,k),'o', 'LineWidth', 2, 'MarkerSize', 10)
-                    if k<n2
-                        desenha_flecha(x2_(:,k)', x2_(:,k+1)', 'r');
+      \end{lstlisting}
+\end{minipage}
+
+\begin{minipage}{\linewidth}
+      \begin{lstlisting}[style=myStyle, caption= trecho de c\'odigo do problema 02 (barreira) (1/2), label=list_p02_bar_1]
+            x0 = [4;25];
+            % x0 = [10;5];
+            % verifica se o ponto alternativo) esta na regiao viavel
+            % c2a(x0)
+            % c2b(x0)
+            alphas =    [0.0001,  0.0001,  0.00002, 0.00002, 0.001,   0.0002];
+            bs =        [  0.12,    0.09,   0.005,   0.008,   0.01,   0.0006];
+            TOLS =      [  1e-4,    1e-4,    5e-4,   1e-4,    1e-6,    1e-5];
+            TOLS_OCR =  [  2e-4,    2e-4,    2e-4,   3e-4,    1e-6,    1e-4];
+            TOLS2 =     [  1e-9,    1e-10,   1e-9,   1e-7,    1e-6,    1e-8];
+            plot_model = 0;
+
+            if plot_model ~= 0
+                figure
+                i=3;
+                j=2;
+            end
+            for m = [1:6]
+                k=0;
+                x=x0;
+                x_values = x;
+                rb=1e7;
+
+                tstart = tic;
+                fprintf('---%s---\n', methods(m));
+
+                while k < iter_max
+                  rb = bs(m)*rb;
+                  b2 = @(x) -c2a(x)^-1 -c2b(x)^-1;
+                  phib2 = @(x) f2(x) + rb * b2(x);
+
+                  g2f = @(x) ...
+                  [0.1885*sqrt(x(2)^2+900);
+                  (0.1885*x(1)*x(2))/sqrt(x(2)^2+900)];
+
+                  g2c1 = @(x) ...
+                  [-(0.952018*rb*x(2)*sqrt(x(2)^2 + 900))/(0.952018*x(1)*x(2) - sqrt(x(2)^2 + 900))^2;
+                  -(856.816*rb*x(1))/(sqrt(x(2)^2 + 900)*(0.952018*x(1)*x(2) - sqrt(x(2)^2 + 900))^2)];
+
+                  g2c2 = @(x) ...
+                  [-(0.952018*rb*x(2)*(x(2)^2 + 900)*(704.703*x(1)^3*x(2) + (x(2)^2 + 900)^(3/2)))/(352.351*x(1)^3*x(2) + 3.52351*x(1)*x(2) - (x(2)^2 + 900)^(3/2))^2; ...
+                  (670.89*rb*x(1)*((x(1)^3 + 0.01*x(1))*sqrt(x(2)^2 + 900)*x(2)^3 - 1.27713*x(2)^4 - 2298.84*x(2)^2 - 1.03448*10^6))/(sqrt(x(2)^2 + 900)*(352.351*x(1)^3*x(2) + 3.52351*x(1)*x(2) - (x(2)^2 + 900)^(3/2))^2)];
+
+                  gphib2 = @(x) g2f(x)+g2c1(x)+g2c2(x);
+
+                  hessf = @(x) ...
+                  [[0, ...
+                        (0.1885*x(2))/sqrt(900 + x(2)^2)]; [(0.1885* x(2))/sqrt(900 + x(2)^2), ...
+                        (-0.1885* x(1)* x(2)^2)/(900 + x(2)^2)^(3/2) + (0.1885* x(1))/sqrt(900 + x(2)^2)]];
+
+                  hessc1 = @(x) ...
+                        [[(-2.20668* rb* (900 + x(2)^2))/(x(1)^4* x(2)^2* (-1 + (1.0504* sqrt(900 + x(2)^2))/(x(1)* x(2)))^3) + (2.1008 *rb *sqrt(900 + x(2)^2))/(x(1)^3* x(2)* (-1 + (1.0504* sqrt(900 + x(2)^2))/(x(1)* x(2)))^2), ...
+                        (2.1008 *rb* sqrt(900 + x(2)^2)* (1.0504/(x(1)* sqrt(900 + x(2)^2)) - (1.0504* sqrt(900 + x(2)^2))/(x(1)* x(2)^2)))/(x(1)^2* x(2)* (-1 + (1.0504* sqrt(900 + x(2)^2))/(x(1)* x(2)))^3) - (1.0504 *rb)/(x(1)^2* sqrt(900 + x(2)^2)* (-1 + (1.0504* sqrt(900 + x(2)^2))/(x(1)* x(2)))^2) + (1.0504 *rb* sqrt(900 + x(2)^2))/(x(1)^2* x(2)^2 *(-1 + (1.0504 *sqrt(900 + x(2)^2))/(x(1)* x(2)))^2)];
+      \end{lstlisting}
+\end{minipage}
+
+\begin{minipage}{\linewidth}
+\begin{lstlisting}[style=myStyle, caption= trecho de c\'odigo do problema 02 (barreira) (2/2), label=list_p02_bar_2]
+                         [(2.1008 *rb* sqrt(900 + x(2)^2)* (1.0504/(x(1)* sqrt(900 + x(2)^2)) - (1.0504 *sqrt(900 + x(2)^2))/(x(1)* x(2)^2)))/(x(1)^2* x(2)* (-1 + (1.0504 *sqrt(900 + x(2)^2))/(x(1)* x(2)))^3) + (rb* (-1.0504/(x(1)^2 *sqrt(900 + x(2)^2)) + (1.0504* sqrt(900 + x(2)^2))/(x(1)^2* x(2)^2)))/(-1 + (1.0504 *sqrt(900 + x(2)^2))/(x(1)* x(2)))^2, ...
+                          (-2* rb* (1.0504/(x(1)* sqrt(900 + x(2)^2)) - (1.0504 *sqrt(900 + x(2)^2))/(x(1)* x(2)^2))^2)/(-1 + (1.0504* sqrt(900 + x(2)^2))/(x(1)* x(2)))^3 + (rb* ((-1.0504 *x(2))/(x(1)* (900 + x(2)^2)^(3/2)) - 1.0504/(x(1) *x(2)* sqrt(900 + x(2)^2)) + (2.1008* sqrt(900 + x(2)^2))/(x(1)* x(2)^3)))/(-1 + (1.0504 *sqrt(900 + x(2)^2))/(x(1)* x(2)))^2]];
+                    hessc2 = @(x) ...
+                        [[(-2*rb* ((-740.22* x(1))/(900 + x(2)^2) - (1.0504 *sqrt(900 + x(2)^2))/(x(1)^2* x(2)))^2)/((-370.11* (0.01 + x(1)^2))/(900 + x(2)^2) + (1.0504 *sqrt(900 + x(2)^2))/(x(1)* x(2)))^3 + (rb *(-740.22/(900 + x(2)^2) + (2.1008 *sqrt(900 + x(2)^2))/(x(1)^3* x(2))))/((-370.11* (0.01 + x(1)^2))/(900 + x(2)^2) + (1.0504* sqrt(900 + x(2)^2))/(x(1)*x(2)))^2, ...
+                         (-2* rb* ((740.22* (0.01 + x(1)^2)* x(2))/(900 + x(2)^2)^2 + 1.0504/(x(1) *sqrt(900 + x(2)^2)) - (1.0504 *sqrt(900 + x(2)^2))/(x(1)* x(2)^2)) *((-740.22* x(1))/(900 + x(2)^2) - (1.0504 *sqrt(900 + x(2)^2))/(x(1)^2* x(2))))/((-370.11* (0.01 + x(1)^2))/(900 + x(2)^2) + (1.0504* sqrt(900 + x(2)^2))/(x(1)* x(2)))^3 + (rb* ((1480.44* x(1)* x(2))/(900 + x(2)^2)^2 - 1.0504/(x(1)^2* sqrt(900 + x(2)^2)) + (1.0504* sqrt(900 + x(2)^2))/(x(1)^2* x(2)^2)))/((-370.11* (0.01 + x(1)^2))/(900 + x(2)^2) + (1.0504* sqrt(900 + x(2)^2))/(x(1)* x(2)))^2];
+                          [(-2* rb* ((740.22* (0.01 + x(1)^2)* x(2))/(900 + x(2)^2)^2 + 1.0504/(x(1) *sqrt(900 + x(2)^2)) - (1.0504 *sqrt(900 + x(2)^2))/(x(1)* x(2)^2)) *((-740.22* x(1))/(900 + x(2)^2) - (1.0504 *sqrt(900 + x(2)^2))/(x(1)^2* x(2))))/((-370.11* (0.01 + x(1)^2))/(900 + x(2)^2) + (1.0504* sqrt(900 + x(2)^2))/(x(1)* x(2)))^3 + (rb* ((1480.44* x(1)* x(2))/(900 + x(2)^2)^2 - 1.0504/(x(1)^2* sqrt(900 + x(2)^2)) + (1.0504* sqrt(900 + x(2)^2))/(x(1)^2* x(2)^2)))/((-370.11* (0.01 + x(1)^2))/(900 + x(2)^2) + (1.0504* sqrt(900 + x(2)^2))/(x(1)* x(2)))^2, ...
+                           (-2*rb* ((740.22* (0.01 + x(1)^2)*x(2))/(900 + x(2)^2)^2 + 1.0504/(x(1)* sqrt(900 + x(2)^2)) - (1.0504 *sqrt(900 + x(2)^2))/(x(1)* x(2)^2))^2)/((-370.11* (0.01 + x(1)^2))/(900 + x(2)^2) + (1.0504* sqrt(900 + x(2)^2))/(x(1)* x(2)))^3 + (rb* ((-2960.88* (0.01 + x(1)^2)* x(2)^2)/(900 + x(2)^2)^3 + (740.22* (0.01 + x(1)^2))/(900 + x(2)^2)^2 - (1.0504* x(2))/(x(1)* (900 + x(2)^2)^(3/2)) - 1.0504/(x(1)* x(2)* sqrt(900 + x(2)^2)) + (2.1008* sqrt(900 + x(2)^2))/(x(1)* x(2)^3)))/((-370.11* (0.01 + x(1)^2))/(900 + x(2)^2) + (1.0504* sqrt(900 + x(2)^2))/(x(1)* x(2)))^2]];
+                    hess2= @(x) hessf(x)+hessc1(x)+hessc2(x);
+
+                    [x_] = osr_noprint(phib2, gphib2, hess2, x, m, 300, alphas(m), TOLS(m), TOLS2(m));
+
+                    if b2(x)*rb/2 < TOLS_OCR(m)
+                        conv=1;
+                        fprintf('x=[%.4f,%.4f], f(x)=%.4f (%d iter/%.1fms)\n', x(1), x(2), f2(x), k, toc(tstart)*1000);
+                        break;
+                    end
+                    x = x_(:,end);
+                    x_values = [x_values,x];
+                    k=k+1;
+                    intervals = 10.^[1:.1:6];
+                    if m == plot_model
+                        phi2_plot = @(x1,x2) ...
+                            0.1885*x1.*sqrt(x2.^2+900) -rb./(1.0504*sqrt(x2.^2+900)./(x1.*x2) - 1) ...
+                             -rb./(1.0504*sqrt(x2.^2+900)./(x1.*x2) - 370.11.*(x1.^2+0.01)./(x2.^2+900));
+                        c_plot = @(x1) -1;
+                        tit = strcat(methods(m), ' (k=',num2str(k),')');
+                        plot_phi(1, 150, 1, 30, phi2_plot, intervals, c_plot, x_values, tit, k, i, j);
                     end
                 end
             end
-        end
       \end{lstlisting}
 \end{minipage}
 
 \begin{minipage}{\linewidth}
       \begin{lstlisting}[style=myStyle, caption=resultado da execu\c c\~ao do script, label=list_output]
-      ******************** ITEM 01A ************************
-      ---Univariante---
-      x0=[ 2, 2]: 34 steps!(4.8ms), xmin=[-0.7142,-0.1428], f=-0.2857
-      x0=[-1,-3]: 36 steps!(6.9ms), xmin=[-0.7144,-0.1429], f=-0.2857
-      ---Powell---
-      x0=[ 2, 2]: 6 steps!(24.8ms), xmin=[-0.7143,-0.1429], f=-0.2857
-      x0=[-1,-3]: 12 steps!(7.2ms), xmin=[-0.7143,-0.1429], f=-0.2857
-      ---Steepest Descent---
-      x0=[ 2, 2]: 25 steps!(6.5ms), xmin=[-0.7142,-0.1428], f=-0.2857
-      x0=[-1,-3]: 7 steps!(3.0ms), xmin=[-0.7143,-0.1429], f=-0.2857
-      ---Fletcher Reeves---
-      x0=[ 2, 2]: 2 steps!(2.5ms), xmin=[-0.7143,-0.1429], f=-0.2857
-      x0=[-1,-3]: 2 steps!(1.7ms), xmin=[-0.7143,-0.1429], f=-0.2857
-      ---Newton-Raphson---
-      x0=[ 2, 2]: 1 steps!(2.5ms), xmin=[-0.7143,-0.1429], f=-0.2857
-      x0=[-1,-3]: 1 steps!(1.1ms), xmin=[-0.7143,-0.1429], f=-0.2857
-      ---BFGS---
-      x0=[ 2, 2]: 2 steps!(2.2ms), xmin=[-0.7143,-0.1429], f=-0.2857
-      x0=[-1,-3]: 2 steps!(1.5ms), xmin=[-0.7143,-0.1429], f=-0.2857
+            >>
+            ************* PROBLEMA 01 - PENALIDADE *********************
+            ---Univariante---
+            x=[0.9448,0.8923], f(x)=1.9447 (7 iter/70.3ms)
+            ---Powell---
+            x=[0.9456,0.8941], f(x)=1.9461 (6 iter/198.4ms)
+            ---Steepest Descent---
+            x=[0.9456,0.8941], f(x)=1.9459 (8 iter/20.8ms)
+            ---Fletcher Reeves---
+            x=[0.9456,0.8941], f(x)=1.9459 (8 iter/5.9ms)
+            ---Newton-Raphson---
+            x=[0.9456,0.8941], f(x)=1.9461 (5 iter/3.9ms)
+            ---BFGS---
+            x=[0.9456,0.8941], f(x)=1.9462 (7 iter/2.4ms)
 
-      ******************** ITEM 01B ************************
-      ---Univariante---
-      x0=[10, 2]: 45 steps!(9.9ms), xmin=[13.0000,4.0000], f=40.0
-      x0=[-2,-3]: 45 steps!(10.8ms), xmin=[7.0000,-2.0000], f=40.0
-      ---Powell---
-      x0=[10, 2]: 24 steps!(11.6ms), xmin=[13.0000,4.0000], f=40.0
-      x0=[-2,-3]: 18 steps!(8.0ms), xmin=[7.0000,-2.0000], f=40.0
-      ---Steepest Descent---
-      x0=[10, 2]: 46 steps!(2.3ms), xmin=[13.0000,4.0000], f=40.0
-      x0=[-2,-3]: 59 steps!(2.6ms), xmin=[7.0000,-2.0000], f=40.0
-      ---Fletcher Reeves---
-      x0=[10, 2]: 41 steps!(1.6ms), xmin=[13.0000,4.0000], f=40.0
-      x0=[-2,-3]: 16 steps!(0.9ms), xmin=[7.0000,-2.0000], f=40.0
-      ---Newton-Raphson---
-      x0=[10, 2]: 1 steps!(0.9ms), xmin=[10.0000,1.0000], f=121.0
-      x0=[-2,-3]: 6 steps!(4.1ms), xmin=[7.0000,-2.0000], f=40.0
-      ---BFGS---
-      x0=[10, 2]: 7 steps!(4.1ms), xmin=[12.9999,4.0001], f=40.0
-      x0=[-2,-3]: 6 steps!(5.7ms), xmin=[7.0000,-2.0000], f=40.0
+            ************* PROBLEMA 01 - BARREIRA *********************
+            ---Univariante---
+            x=[0.9467,0.8969], f(x)=1.9485 (6 iter/78.0ms)
+            ---Powell---
+            x=[0.9453,0.8944], f(x)=1.9488 (11 iter/8615.5ms)
+            ---Steepest Descent---
+            x=[0.9456,0.8948], f(x)=1.9485 (6 iter/797.9ms)
+            ---Fletcher Reeves---
+            x=[0.9454,0.8944], f(x)=1.9485 (6 iter/297.1ms)
+            ---Newton-Raphson---
+            x=[0.9456,0.8941], f(x)=1.9462 (10 iter/124.0ms)
+            ---BFGS---
+            x=[0.9454,0.8944], f(x)=1.9485 (6 iter/239.1ms)
 
-      ******************** ITEM 02 ************************
-      ---Univariante---
-      x0=[0.01,-0.10]: 11 steps!(2.1ms), xmin=[-0.205,7.789], f=-2091.7
-      ---Powell---
-      x0=[0.01,-0.10]: 12 steps!(6340.8ms), xmin=[-0.205,7.789], f=-2091.7
-      ---Steepest Descent---
-      x0=[0.01,-0.10]: 6 steps!(0.3ms), xmin=[-0.205,7.789], f=-2091.7
-      ---Fletcher Reeves---
-      x0=[0.01,-0.10]: 10 steps!(0.4ms), xmin=[-0.205,7.789], f=-2091.7
-      ---Newton-Raphson---
-      x0=[0.01,-0.10]: 3 steps!(4.4ms), xmin=[-0.205,7.789], f=-2091.7
-      ---BFGS---
-      x0=[0.01,-0.10]: 3 steps!(0.3ms), xmin=[-0.205,7.789], f=-2091.7
+            ************* PROBLEMA 02 - PENALIDADE *********************
+            ---Univariante---
+            x=[1.8784,20.2363], f(x)=12.8128 (15 iter/144.3ms)
+            ---Powell---
+            x=[1.8783,20.2365], f(x)=12.8127 (8 iter/247.3ms)
+            ---Steepest Descent---
+            x=[1.8784,20.2357], f(x)=12.8129 (14 iter/5302.9ms)
+            ---Fletcher Reeves---
+            x=[1.8783,20.2350], f(x)=12.8124 (12 iter/1920.4ms)
+            ---Newton-Raphson---
+            x=[1.8783,20.2365], f(x)=12.8127 (15 iter/528.7ms)
+            ---BFGS---
+            x=[1.8783,20.2363], f(x)=12.8127 (13 iter/6433.7ms)
+
+            ************* PROBLEMA 02 - BARREIRA *********************
+            ---Univariante---
+            x=[1.8785,20.2389], f(x)=12.8143 (15 iter/13461.8ms)
+            ---Powell---
+            x=[1.8785,20.2396], f(x)=12.8147 (13 iter/11053.0ms)
+            ---Steepest Descent---
+            x=[1.8793,20.8871], f(x)=12.9492 (5 iter/9248.0ms)
+            ---Fletcher Reeves---
+            x=[1.8855,20.3466], f(x)=12.8837 (5 iter/3708.0ms)
+            ---Newton-Raphson---
+            x=[1.8784,20.2367], f(x)=12.8129 (8 iter/225.5ms)
+            ---BFGS---
+            x=[1.8971,20.5055], f(x)=12.9950 (3 iter/1675.9ms)
+            >>
       \end{lstlisting}
 \end{minipage}
 
