@@ -114,44 +114,59 @@ Para solu\c c\~ao dos problemas desse trabalho, que consiste na minimiza\c c\~ao
 Os principais objetivos deste trabalho s\~ao:
 \begin{itemize}
       \item Implementar numericamente os algoritmos indiretos de otimiza\c c\~ao com restri\c c\~oes: penalidade e barreira.
-      \item Avaliar a influ\^encia dos par\^ametros dos algoritmos nas m\'etricas de converg\^encia e comparar essas \'ulltimas com os valores esperados da teoria.
+      \item Avaliar a influ\^encia dos par\^ametros dos algoritmos nas m\'etricas de converg\^encia.
       \item Aplicar os algoritmos implementados na solu\c c\~ao do problema de OCR em dois casos: uma fun\c c\~ao polinomial de ordem 4 e uma fun\c c\~ao que representa um problema de engenharia (minimiza\c c\~ao do peso de uma treli\c ca de duas barras e cujas restri\c c\~oes est\~ao associadas a valores m\'aximos de tens\~ao nas barras das treli\c cas que n\~ao podem ser maiores do que as tens\~oes cr\'itica de Euler e de escoamento do material)
 \end{itemize}
 
 As fun\c c\~oes a serem minimizadas neste trabalho e as respectivas restri\c c\~oes s\~ao:
 
-\textbf{Problema 01:}
-\[
-      \begin{cases}
-            \begin{aligned}
-            \text{Minimizar:  }   & f(x_1, x_2) = (x_1-2)^4 + (x_1-2x_2)^2 \\
-            \text{Sujeito a:  }   & x_1^2 - x_2 \leq 0\\
-            \end{aligned}
-      \end{cases}
-\]
-Partindo do ponto $x^0=\{3,2\}$ para o m\'etodo da penalidade e do ponto $x^0=\{0,1\}$ para o m\'etodo de barreira.
+\begin{itemize}
+      \item
+            \textbf{Problema 01:}
+            \[
+                  \begin{cases}
+                        \begin{aligned}
+                              \text{Minimizar:  }   & f(x_1, x_2) = (x_1-2)^4 + (x_1-2x_2)^2 \\
+                              \text{Sujeito a:  }   & x_1^2 - x_2 \leq 0\\
+                        \end{aligned}
+                  \end{cases}
+            \]
+            \[
+                  \text{Ponto inicial:}
+                  \begin{cases}
+                        \text{Para o m\'etodo da penalidade:} & x^0=\{3,2\}  \\
+                        \text{Para o m\'etodo da barreira:} & x^0=\{0,1\}  \\
+                  \end{cases}
+            \]
 
-\textbf{Problema 02:}
-\[
-      \begin{cases}
-            \begin{aligned}
-            \text{Minimizar:  }     & f(d, H) = 2\rho \pi t d \sqrt{H^2+B^2}\\
-            \text{Sujeito a:  }     & \frac{P \sqrt{H^2+B^2}}{\pi t d H} \leq \sigma_y \text{ e } \frac{P \sqrt{H^2+B^2}}{\pi t d H} \leq \frac{\pi^2 E (d^2+t^2)}{8(H^2+B^2)}\\
-            \end{aligned}
-      \end{cases}
-\]
-\small
-\[
-\text{Onde:} \begin{cases}
-      \text{d: di\^ametro m\'edio da se\c c\~ao transversal}\\
-      \text{t: espessura da se\c c\~ao transversal}\\
-      \text{E: m\'odulo de elasticidade do material}\\
-      \text{$\rho$: peso espec\'ifico do material}
-\end{cases}
-\]
-\normalsize
-Partindo do ponto $x^0=\{1,15\}$ para o m\'etodo da penalidade e do ponto $x^0=\{4,25\}$ para o m\'etodo de barreira.
-
+            \item
+            \textbf{Problema 02:}
+            \[
+                  \begin{cases}
+                        \begin{aligned}
+                              \text{Minimizar:  }     & f(d, H) = 2\rho \pi t d \sqrt{H^2+B^2}\\
+                              \text{Sujeito a:  }     & \frac{P \sqrt{H^2+B^2}}{\pi t d H} \leq \sigma_y \text{ e } \frac{P \sqrt{H^2+B^2}}{\pi t d H} \leq \frac{\pi^2 E (d^2+t^2)}{8(H^2+B^2)}\\
+                        \end{aligned}
+                  \end{cases}
+            \]
+            \small
+            \[
+                  \text{Onde:} \begin{cases}
+                        \text{d: di\^ametro m\'edio da se\c c\~ao transversal}\\
+                        \text{t: espessura da se\c c\~ao transversal}\\
+                        \text{E: m\'odulo de elasticidade do material}\\
+                        \text{$\rho$: peso espec\'ifico do material}
+                  \end{cases}
+            \]
+            \normalsize
+            \[
+                  \text{Ponto inicial:}
+                  \begin{cases}
+                        \text{Para o m\'etodo da penalidade:} & x^0=\{1,15\}  \\
+                        \text{Para o m\'etodo da barreira:} & x^0=\{4,25\}  \\
+                  \end{cases}
+            \]
+\end{itemize}
 
 \section{M\'etodos Indiretos em OCR}
 
@@ -174,7 +189,7 @@ $$
 $$
 \normalsize
 
-Para evitar problemas num\'ericos de mal condicionamento, a penalidade $r$ \'e introduzida de forma gradual, iniciando-se moderada e tendo seu valor incrementado a medida em que o processo de otimiza\c c\~ao se desenvolve. Dessa forma a solu\c c\~ao de um Problema de OCR se torna uma sequ\^encia de Problemas de OSR (\cite{ppt}).
+Para evitar problemas num\'ericos de mal condicionamento, a penalidade $r$ \'e introduzida de forma gradual, iniciando-se moderada e tendo seu valor incrementado a medida em que o processo de otimiza\c c\~ao se desenvolve. Dessa forma a solu\c c\~ao de um problema de OCR se torna uma sequ\^encia de problemas de OSR (\cite{ppt}).
 
 \subsection{M\'etodo da Penalidade}
 
@@ -197,13 +212,13 @@ O passo a passo do m\'etodo da penalidade \'e descrito na figura \ref{fig:algori
 
 \subsection{M\'etodo da Barreira}
 
-No m\'etodo da barreira (ou m\'etodo interior), a converg\^encia se d\'a do interior da regi\~ao das solu\c c\~oes vi\'aveis para o contorno dela. Essa caracter\'istica torna a solu\c c\~ao em cada itera\c c\~ao do processo uma solu\c c\~ao vi\'avel, o que \'e interessante. O m\'etodo usa a denomina\c c\~ao barreira porque a fun\c c\~ao de barreira se torna infinita no contorno da regi\~ao vi\'avel.
+No m\'etodo da barreira (ou m\'etodo interior), a converg\^encia se d\'a do interior da regi\~ao das solu\c c\~oes vi\'aveis para o contorno dela. Essa caracter\'istica torna a solu\c c\~ao em cada itera\c c\~ao do processo uma solu\c c\~ao vi\'avel, o que \'e interessante. O m\'etodo usa a denomina\c c\~ao barreira porque a fun\c c\~ao de barreira se torna infinita no contorno da regi\~ao vi\'avel (\cite{apostila}).
 
 \begin{equation} \label{eqBarr}
       \phi (\vec{x}, r_p) = f(\vec{x}) + r_b \sum_{k=1}^{m} h_k^2(\vec{x}) + r_b \sum_{l=1}^{p} - \frac{1}{c_l(\vec{x})}
 \end{equation}
 
-Como, no caso da barreira, a solu\c c\~ao converge pela regi\~ao vi\'avel, $c_l \leq 0$ e, portanto, existe um sinal negativo na eq. \ref{eqBarr} para tornar a pseudo-fun\c c\~ao objetivo $\phi$ postiva e, consequentemente, permitir sua minimiza\c c\~ao, caso contr\'ario esta iria para $-\infty$, j\'a que $c_l$ tende a se aproximar de zero \`a medida que as itera\c c\~oes avan\c cam.
+Como, no caso da barreira, a solu\c c\~ao converge pela regi\~ao vi\'avel, $c_l \leq 0$ e, portanto, existe um sinal negativo na eq. \ref{eqBarr} para tornar a pseudo-fun\c c\~ao objetivo $\phi$ postiva e, consequentemente, permitir sua minimiza\c c\~ao, caso contr\'ario esta tenderia para $-\infty$, j\'a que $c_l$ tende a se aproximar de zero \`a medida que as itera\c c\~oes avan\c cam.
 
 O passo a passo do m\'etodo da barreira \'e descrito na figura \ref{fig:algoritmoBarreira}
 
@@ -218,15 +233,15 @@ O passo a passo do m\'etodo da barreira \'e descrito na figura \ref{fig:algoritm
 
 O fluxo de trabalho para solu\c c\~ao do problema de OCR est\'a descrito na figura \ref{fig:workflow} a seguir \'e v\'alido tanto para o m\'etodo de penalidade quanto para o m\'etodo de barreira.
 
-O primeiro passo \'e a inicializa\c c\~ao das fun\c c\~oes $f$, suas restri\c c\~oes $c_l$, que no caso dos problemas propostos s\~ao apenas de desigualdade, al\'em da escolha do ponto inicial $x^0$. Em seguida procede-se a escolha dos par\^ametros dos algoritmos de OSR e OCR: Toler\^ancias para verifica\c c\~ao da converg\^encia, $d\alpha$, $\beta$ e $r_p$ (ou $r_b$).
+O primeiro passo \'e a inicializa\c c\~ao das fun\c c\~oes $f$, suas restri\c c\~oes $c_l$, que no caso dos problemas propostos s\~ao apenas de desigualdade, al\'em da escolha do ponto inicial $x^0$. Em seguida procede-se a escolha dos par\^ametros dos algoritmos de OSR e OCR: Toler\^ancias para verifica\c c\~ao da converg\^encia, $d\alpha$ (tamanho do passo da busca linear), $\beta$ e $r_p$ (ou $r_b$).
 
 Em seguida cria-se um looping de $m=1...6$ para varrer todos os m\'etodos de OSR: Univariante, Powell, Steepest-Descent, Fletcher-Reeves, Newton-Raphson e BFGS.
 
- Para cada um desses m\'etodos cria-se o termo de penaliza\c c\~ao $p(\vec{x})$ ou $b(\vec{x})$ e a pseudo-fun\c c\~ao objetivo $\phi(\vec{x}, r)$, al\'em das fun\c c\~oes $\vec{\nabla} \phi(\vec{x}, r)$ e $\vec{H}(\phi(\vec{x}, r))$. Esses manipuladores de fun\c c\~ao s\~ao passados para o script OSR juntamente com o ponto $x^0$ para solu\c c\~ao do problema de otimiza\c c\~ao sem restri\c c\~ao da fun\c c\~ao $\phi$.
+ Para cada um desses m\'etodos cria-se o termo de penaliza\c c\~ao $p(\vec{x})$ ou $b(\vec{x})$ e a pseudo-fun\c c\~ao objetivo $\phi(\vec{x}, r)$, al\'em das fun\c c\~oes $\vec{\nabla} \phi(\vec{x}, r)$ e $\vec{H}(\phi(\vec{x}, r))$. Esses manipuladores de fun\c c\~ao s\~ao passados para o script OSR juntamente com o ponto $x^0$ para solu\c c\~ao do problema de otimiza\c c\~ao sem restri\c c\~ao da fun\c c\~ao $\phi$ a partir de $x^0$.
 
- Ap\'os a solu\c c\~ao de $x^k$ pelo m\'etodo de OSR, plota-se as curvas de n\'ivel de $\phi$ e todos os pontos de solu\c c\~ao $x^0$, $x^1$, .... $x^(k-1)$, $x^k$ at\'e o passo atual, para evidenciar graficamente a trajet\'oria da solu\c c\~ao.
+ Ap\'os a solu\c c\~ao de $x^k$ pelo m\'etodo de OSR, plota-se as curvas de n\'ivel de $\phi$ e todos os pontos de solu\c c\~ao $x^0$, $x^1$, .... $x^{k-1}$, $x^k$ at\'e o passo $k$ atual, para evidenciar graficamente a trajet\'oria da solu\c c\~ao a cada passo.
 
- Por fim, avalia-se a convergencia do problema de OCR e caso n\~ao haja converg\^encia, proceder-se-\'a novo c\'alculo de $x^(k+1)$ a partir de $x^k$, para isso atualiza-se o valor de $r_p$ (ou $r_b$) e procede-se novo c\'alculo de OSR a partir do novo $x^k$. O passo a passo \'e repetido par todos os m\'etodos de busca direcional de OSR.
+ Por fim, avalia-se a converg\^encia do problema de OCR avaliando se o termo $\frac{1}{2} r_p p$ (ou $r_b b$) \'e suficientemente pequeno, e caso n\~ao haja converg\^encia, proceder-se-\'a novo c\'alculo de $x^{k+1}$ a partir de $x^k$, para isso atualiza-se o valor de $r_p$ (ou $r_b$) e procede-se novo c\'alculo de OSR a partir do novo $x^k$. O passo a passo \'e repetido par todos os m\'etodos de busca direcional de OSR.
 
 \begin{figure}[H]
       \centering
@@ -239,9 +254,9 @@ Os principais trechos dos scripts \textit{Matlab} utilizados ser\~ao listados na
 
 \section{Resultados}
 
-Visando a converg\^encia de todos os m\'etodos, foram testados alguns valores dos par\^ametros dos algoritmos. A melhor combina\c c\~ao dos par\^ametros, para as fun\c c\~oes dos problemas 1 e 2 em termos de converg\~encia dos algoritmos est\'a listada na tabela \ref{table:params}.
+Visando a converg\^encia de todos os m\'etodos, foram testados alguns valores dos par\^ametros dos algoritmos. A melhor combina\c c\~ao dos par\^ametros, para as fun\c c\~oes dos problemas 1 e 2 em termos de converg\^encia dos algoritmos est\'a listada na tabela \ref{table:params}.
 
-O processo de busca linear implementado para solu\c c\~ao do problema de OSR possui inefici\^encias e imperfei\c c\~oes, principalmente no caso das fun\c c\~oes-objetivo serem mais complexas quando associadas aos termos de penalidade, conforme \'e o caso das pseudo-fun\c c\~os objetivo associadas aos casos de OCR. Este fato levou a dificuldades na converg\^encia dos algortimos, em geral.
+O processo de busca linear implementado para solu\c c\~ao do problema de OSR possui inefici\^encias e imperfei\c c\~oes, principalmente no caso das fun\c c\~oes-objetivo serem mais complexas quando associadas aos termos de penalidade, como  \'e o caso das pseudo-fun\c c\~oes objetivo dos problemas de OCR, j\'a que incorporam as fun\c c\~oes de penalidade. Este fato levou a dificuldades na converg\^encia dos algortimos, em geral.
 
 Foram testados valores de toler\^ancias menores, na faixa de $10^{-6}$, e $d\alpha$ (passo da busca linear) maiores. Nesses casos, os algortimos at\'e convergiam, por\'em em temos muito longos, o que prejudicou a possibilidade de testes e execu\c c\~ao do trabalho. Dessa forma, o programa implementado para a solu\c c\~ao dos problemas de OCR utilizou os valores da tabela \ref{table:params}.
 
@@ -306,7 +321,7 @@ A tabela \ref{table:results} abaixo ilustra os resultados encontrados para a imp
       \small
       \centering
       \caption{Resultados}
-      \begin{tabular}{c|c|c|c|c|c|c}
+      \begin{tabular}{c|c|c|c|c|c}
             Problema & M\'etodo, $x^0$  & Algoritmo & $x^{min}$ & passos & $\Delta t$(ms) \\
             \hline
             \multirow{6}{*}{01} & \multirow{6}{*}{Penalidade, $x^0=\{3,2\}$} & Univariante       & $\{0.9446,0.8921\}$ & 8 & 55.3  \\
@@ -341,11 +356,9 @@ A tabela \ref{table:results} abaixo ilustra os resultados encontrados para a imp
       \label{table:results}
 \end{table}
 
-\newpage
-
 Conforme citado anteriormente, a utliza\c c\~ao de m\'etodos indiretos em OCR consiste na incorpora\c c\~ao das restri\c c\~oes na fun\c c\~ao objetivo a ser minimizada, sendo os termos associados \`as restri\c c\~oes penalizados gradualmente.
 
-Nas figuras a seguir, para cada passo dos algoritmos de penalidade ou barreira, ilustra-se as curvas de n\'ivel da pseudo-fun\c c\~ao objetivo $\phi(x_1, x_2)$, onde se pode evidenciar a forma que esta vai tomando a cada passo do m\'etodo, a partir da incorpora\c c\~ao e penaliza\c c\~ao dos termos de restri\c c\~ao.
+Nas figuras que ser\~ao mostradas nas se\c c\~oes seguintes, para cada passo dos algoritmos de penalidade ou barreira, ilustra-se as curvas de n\'ivel da pseudo-fun\c c\~ao objetivo $\phi(x_1, x_2)$, onde se pode evidenciar a forma que esta vai tomando a cada passo do m\'etodo, a partir da incorpora\c c\~ao e penaliza\c c\~ao dos termos de penalidade.
 
 Sobrepostos \`as curvas de n\'ivel de $\phi(x_1, x_2)$, para cada passo $k=1....n$ ilustra-se o conjunto de pontos $\{x^0, x^1, ... , x^k\}$ (solu\c c\~oes do problema de OSR) at\'e o passo atual.
 
@@ -353,13 +366,15 @@ Sobrepostos \`as curvas de n\'ivel de $\phi(x_1, x_2)$, para cada passo $k=1....
 % PROBLEMA 01
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-As figuras a seguir ilustram as curvas da solu\c c\~ao de OCR para a fun\c c\~ao a as restri\c c\~oes do problema 1
+\newpage
+
+As figuras a seguir ilustram as curvas da solu\c c\~ao de OCR para a fun\c c\~ao a as restri\c c\~oes do problema 1. A restri\c c\~ao de desigualdade est\'a representada pela linha vermelha em tra\c co forte.
 
 Na figura \ref{fig:fig01} podemos ver a regi\~ao vi\'avel (acima da curva vermelha) e a converg\^encia do algoritmo pelo algortimo de Powell de OSR pelo m\'etodo da penalidade, assim como a deforma\c c\~ao de $\phi(x_1,x_2)$ a partir do ponto $x^0=\{3,2\}$. Nota-se tamb\'em a converg\^encia do algoritmo pela regi\~ao n\~ao vi\'avel (abaixo da curva vermelha).
 
 \begin{figure}[H]
       \centering
-      \includegraphics[width=0.75\textwidth]{fig01_P01_PEN_X1_POW.png}
+      \includegraphics[width=0.6\textwidth]{fig01_P01_PEN_X1_POW.png}
       \caption{OCR do problema 01 pelo m\'etodo da penalidade, a partir do ponto $x^0=\{3,2\}$ - Algoritmo de Powell}
       \label{fig:fig01}
 \end{figure}
@@ -368,7 +383,7 @@ Para avaliar a robustez dos algoritmos, selecionamos um novo ponto $x^0=\{0,4\}$
 
 \begin{figure}[H]
       \centering
-      \includegraphics[width=0.75\textwidth]{fig02_P01_PEN_X2_FR.png}
+      \includegraphics[width=0.6\textwidth]{fig02_P01_PEN_X2_FR.png}
       \caption{OCR do problema 01 pelo m\'etodo da penalidade, a partir do ponto $x^0=\{0,4\}$ - Algoritmo de Flecher-Reeves}
       \label{fig:fig02}
 \end{figure}
@@ -379,7 +394,7 @@ Desta vez \'e poss\'ivel notar que a regi\~ao associada \`a restri\c c\~ao (curv
 
 \begin{figure}[H]
       \centering
-      \includegraphics[width=0.75\textwidth]{fig03_P01_BAR_X1_UNI.png}
+      \includegraphics[width=0.65\textwidth]{fig03_P01_BAR_X1_UNI.png}
       \caption{OCR do problema 01 pelo m\'etodo da barreira, a partir do ponto $x^0=\{0,1\}$ - Algoritmo Univariante}
       \label{fig:fig03}
 \end{figure}
@@ -420,9 +435,9 @@ Para avaliar a robustez do m\'etodo, selecionamos um novo ponto $x^0=\{2.5,10\}$
 % PROBLEMA 02
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-As figuras a seguir ilustram as curvas da solu\c c\~ao de OCR para a fun\c c\~ao a as restri\c c\~oes do problema 2
+As figuras a seguir ilustram as curvas da solu\c c\~ao de OCR para a fun\c c\~ao a as restri\c c\~oes do problema 2. As restri\c c\~oes de desigualdade est\~ao representadas pelas linhas vermelha e preta em tra\c co forte.
 
-Nas figuras \ref{fig:fig05} e \ref{fig:fig06} a seguir ilustra-se as converg\^encias do algoritmo de OCR pelo m\'etodo de penalidade para dois pontos de partida distintos: $x^0=\{1,15\}$ e $x^0=\{3,3\}$, respecivamente. O primeiro utilizando, para OSR o m\'etodo de dire\c c\~oes de busca de Fletcher-Reeves e o segundo, Univariante.
+Nas figuras \ref{fig:fig05} e \ref{fig:fig06} a seguir ilustra-se as converg\^encias do algoritmo de OCR pelo m\'etodo de penalidade para dois pontos de partida distintos: $x^0=\{1,15\}$ e $x^0=\{3,10\}$, respecivamente. O primeiro utilizando, para OSR o m\'etodo de dire\c c\~oes de busca de Fletcher-Reeves e o segundo, Univariante.
 
 Nota-se nesses dois gr\'aficos a maior complexidade da fun\c c\~ao e o consequente maior n\'umero de passos necess\'arios para converg\^encia.
 
@@ -435,7 +450,7 @@ Nota-se nesses dois gr\'aficos a maior complexidade da fun\c c\~ao e o consequen
 \begin{figure}[H]
       \centering
       \includegraphics[width=0.8\textwidth]{fig06_P02_PEN_X2_UNI.png}
-      \caption{OCR do problema 02 pelo m\'etodo da penalidade, a partir do ponto $x^0=\{3,3\}$ - Algoritmo Univariante}
+      \caption{OCR do problema 02 pelo m\'etodo da penalidade, a partir do ponto $x^0=\{3,10\}$ - Algoritmo Univariante}
       \label{fig:fig06}
 \end{figure}
 
@@ -525,41 +540,42 @@ A seguir est\~ao ilustrados alguns dos c\'odigos ou trechos de c\'odigos decrito
                 fprintf('---%s---\n', methods(m));
 
                 while k < iter_max
-                    if c1(x) < 0
+                        if c1(x) < 0
                         a = 0;
-                    else
+                        else
                         a = 1;
-                    end
-                    rp = bs(m)*rp;
+                        end
+                        rp = bs(m)*rp;
 
-                    p1 = @(x) a * c1(x)^2;
-                    phi1 = @(x) f1(x) + 1/2 * rp * p1(x);
-                    gphi1 = @(x) [2*(a*rp*x(1)*(x(1)^2-x(2))+2*(x(1)-2)^3+x(1)-2*x(2)); -a*rp*x(1)^2+x(2)*(a*rp+8)-4*x(1)];
-                    hess1 = @(x) ...
+                        p1 = @(x) a * c1(x)^2;
+                        phi1 = @(x) f1(x) + 1/2 * rp * p1(x);
+                        gphi1 = @(x) [2*(a*rp*x(1)*(x(1)^2-x(2))+2*(x(1)-2)^3+x(1)-2*x(2)); -a*rp*x(1)^2+x(2)*(a*rp+8)-4*x(1)];
+                        hess1 = @(x) ...
                         [[2*a*rp*(x(1)^2-x(2)) + 4*a*rp*x(1)^2 + 12*(x(1) - 2)^2 + 2, -2*a*rp*x(1) - 4];
                         [-2*a*rp*x(1) - 4, a*rp + 8]];
 
-                    [x_] = osr_noprint(phi1, gphi1, hess1, x, m, iter_max, alphas(m), TOLS(m), TOLS2(m));
-                    k=k+1;
+                        [x_] = osr_noprint(phi1, gphi1, hess1, x, m, iter_max, alphas(m), TOLS(m), TOLS2(m));
+                        k=k+1;
 
-                    if 1/2*p1(x)*rp < TOLS(m)*10 && p1(x) ~= 0
+                        if 1/2*p1(x)*rp < TOLS(m)*10 && p1(x) ~= 0
                         conv=1;
                         fprintf('x=[%.4f,%.4f], f(x)=%.4f (%d iter/%.1fms)\n', x(1), x(2), f1(x), k-1, toc(tstart)*1000);
                         break;
-                    end
-                    x = x_(:,end);
-                    x_values = [x_values,x];
+                        end
+                        x = x_(:,end);
+                        x_values = [x_values,x];
 
-                    intervals = [0 1 2 5 10 25 100:500:10000];
-                    if m == plot_model
+                        intervals = [0 1 2 5 10 25 100:500:10000];
+                        if m == plot_model
                         phi1_plot = @(x1,x2) (x1-2).^4 + (x1-2*x2).^2+1/2*a*rp*(x1.^2-x2).^2;
-                        c_plot = @(x1) x1.^2;
+                        c1_plot = @(x1,x2) x1.^2-x2;
+                        c2_plot = [];
                         intervals = intervals*10;
-                        tit = strcat(methods(m), ' (k=',num2str(k),')');
-                        plot_phi(-3, 3, 0, 9, phi1_plot, intervals, c_plot, x_values, tit, k, i, j);
-                    end
+                        tit = strcat(methods(m), ' (Steps=',num2str(k),')');
+                        plot_phi_c(-3, 3, 0, 9, phi1_plot, intervals, c1_plot, [], x_values, tit, k, i, j);
+                  end
                 end
-                            if ~conv
+                  if ~conv
                     fprintf('\n nao deu');
                 end
             end
@@ -622,9 +638,10 @@ A seguir est\~ao ilustrados alguns dos c\'odigos ou trechos de c\'odigos decrito
                   intervals = 10.^[-2:.5:5];
                   if m == plot_model
                         phib1_plot = @(x1,x2) (x1-2).^4 + (x1-2*x2).^2 - rb./(x1.^2-x2);
-                        c_plot = @(x1) x1.^2;
-                        tit = strcat(methods(m), ' (k=',num2str(k),')');
-                        plot_phi(-2, 2, 0, 4, phib1_plot, intervals, c_plot, x_values, tit, k, i , j);
+                        c_plot = @(x1,x2) x1.^2-x2;
+                        c2_plot = [];
+                        intervals = intervals*10;
+                        plot_phi_c(-3,3,0,9, phib1_plot, intervals, c1_plot, [], x_values, tit, k, i , j);
                   end
             end
 
@@ -716,9 +733,10 @@ A seguir est\~ao ilustrados alguns dos c\'odigos ou trechos de c\'odigos decrito
                         0.1885.*x1.*sqrt(x2.^2+900) + ...
                         1/2*rp*a(1)*(1.0504.*sqrt(x2.^2+900)./(x1.*x2) - 1).^2 + ...
                         1/2*rp*a(2)*(1.0504.*sqrt(x2.^2+900)./(x1.*x2) - 3.7011e2.*(x1.^2+0.01)./(x2.^2+900)).^2;
-                        c_plot = @(x1) -1;
-                        tit = strcat(methods(m), ' (k=',num2str(k),')');
-                        plot_phi(0, 4, 1, 100, phi2_plot, intervals, c_plot, x_values, tit, k, i, j);
+                        c2a_plot = @(x1, x2) 1.0504.*sqrt(x2.^2+900)./(x1.*x2) - 1;
+                        c2b_plot = @(x1, x2) 1.0504.*sqrt(x2.^2+900)./(x1.*x2) - 3.7011e2.*(x1.^2+0.01)./(x2.^2+900);
+                        tit = strcat(methods(m), ' (steps=',num2str(k),')');
+                        plot_phi_c(0, 4, 1, 30, phi2_plot, intervals, c2a_plot, c2b_plot, x_values, tit, k, i, j);
                   end
             end
             if ~conv
@@ -795,9 +813,7 @@ A seguir est\~ao ilustrados alguns dos c\'odigos ou trechos de c\'odigos decrito
                           [(-2* rb* ((740.22* (0.01 + x(1)^2)* x(2))/(900 + x(2)^2)^2 + 1.0504/(x(1) *sqrt(900 + x(2)^2)) - (1.0504 *sqrt(900 + x(2)^2))/(x(1)* x(2)^2)) *((-740.22* x(1))/(900 + x(2)^2) - (1.0504 *sqrt(900 + x(2)^2))/(x(1)^2* x(2))))/((-370.11* (0.01 + x(1)^2))/(900 + x(2)^2) + (1.0504* sqrt(900 + x(2)^2))/(x(1)* x(2)))^3 + (rb* ((1480.44* x(1)* x(2))/(900 + x(2)^2)^2 - 1.0504/(x(1)^2* sqrt(900 + x(2)^2)) + (1.0504* sqrt(900 + x(2)^2))/(x(1)^2* x(2)^2)))/((-370.11* (0.01 + x(1)^2))/(900 + x(2)^2) + (1.0504* sqrt(900 + x(2)^2))/(x(1)* x(2)))^2, ...
                            (-2*rb* ((740.22* (0.01 + x(1)^2)*x(2))/(900 + x(2)^2)^2 + 1.0504/(x(1)* sqrt(900 + x(2)^2)) - (1.0504 *sqrt(900 + x(2)^2))/(x(1)* x(2)^2))^2)/((-370.11* (0.01 + x(1)^2))/(900 + x(2)^2) + (1.0504* sqrt(900 + x(2)^2))/(x(1)* x(2)))^3 + (rb* ((-2960.88* (0.01 + x(1)^2)* x(2)^2)/(900 + x(2)^2)^3 + (740.22* (0.01 + x(1)^2))/(900 + x(2)^2)^2 - (1.0504* x(2))/(x(1)* (900 + x(2)^2)^(3/2)) - 1.0504/(x(1)* x(2)* sqrt(900 + x(2)^2)) + (2.1008* sqrt(900 + x(2)^2))/(x(1)* x(2)^3)))/((-370.11* (0.01 + x(1)^2))/(900 + x(2)^2) + (1.0504* sqrt(900 + x(2)^2))/(x(1)* x(2)))^2]];
                     hess2= @(x) hessf(x)+hessc1(x)+hessc2(x);
-
                     [x_] = osr_noprint(phib2, gphib2, hess2, x, m, 300, alphas(m), TOLS(m), TOLS2(m));
-
                     if b2(x)*rb/2 < TOLS_OCR(m)
                         conv=1;
                         fprintf('x=[%.4f,%.4f], f(x)=%.4f (%d iter/%.1fms)\n', x(1), x(2), f2(x), k, toc(tstart)*1000);
@@ -809,11 +825,13 @@ A seguir est\~ao ilustrados alguns dos c\'odigos ou trechos de c\'odigos decrito
                     intervals = 10.^[1:.1:6];
                     if m == plot_model
                         phi2_plot = @(x1,x2) ...
-                            0.1885*x1.*sqrt(x2.^2+900) -rb./(1.0504*sqrt(x2.^2+900)./(x1.*x2) - 1) ...
-                             -rb./(1.0504*sqrt(x2.^2+900)./(x1.*x2) - 370.11.*(x1.^2+0.01)./(x2.^2+900));
-                        c_plot = @(x1) -1;
-                        tit = strcat(methods(m), ' (k=',num2str(k),')');
-                        plot_phi(1, 150, 1, 30, phi2_plot, intervals, c_plot, x_values, tit, k, i, j);
+                              0.1885*x1.*sqrt(x2.^2+900) + ...
+                              -rb./(1.0504*sqrt(x2.^2+900)./(x1.*x2) - 1) ...
+                              -rb./(1.0504*sqrt(x2.^2+900)./(x1.*x2) - 370.11.*(x1.^2+0.01)./(x2.^2+900));
+                        c2a_plot = @(x1, x2) 1.0504.*sqrt(x2.^2+900)./(x1.*x2) - 1;
+                        c2b_plot = @(x1, x2) 1.0504.*sqrt(x2.^2+900)./(x1.*x2) - 3.7011e2.*(x1.^2+0.01)./(x2.^2+900);
+                        tit = strcat(methods(m), ' (steps=',num2str(k),')');
+                        plot_phi_c(1, 150, 1, 30, phi2_plot, intervals, c2a_plot, c2b_plot, x_values, tit, k, i, j);
                     end
                 end
             end
